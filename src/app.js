@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
-import { errorHandler } from 'lib-common-service';
+import { registerUser, errorHandler } from 'lib-common-service';
 
 // User Routes
 import { USERS_API } from './constants.js';
@@ -39,7 +39,7 @@ app.use(cookieParser());
 const tokenKey = process.env.ACCESS_TOKEN_KEY;
 
 // Dashboard Setting Routes
-app.post(`${USERS_API}/create-setting`, routes.settingRoutes.createSetting);
+app.post(`${USERS_API}/create-setting`, registerUser, routes.settingRoutes.createSetting);
 
 // Error Handler middleware
 app.use(errorHandler);
