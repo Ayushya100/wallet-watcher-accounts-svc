@@ -1,14 +1,19 @@
 'use strict';
 
-import { buildApiResponse, responseCodes, logger } from 'lib-common-service';
+import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
 import setting from '../../controllers/index.js';
 
-const log = logger('route: create-setting');
+const header = 'route: create-setting';
+const msg = 'Create Setting Router started';
+
+const log = logger(header);
+const registerLog = createNewLog(header);
 const dashboardSetting = setting.dashboardSetting;
 
 // API Function
 const createSetting = async(req, res, next) => {
-    log.info('Create Setting Router started');
+    log.info(msg);
+    registerLog.createInfoLog(msg);
 
     try {
         const payload = req.body;
@@ -25,10 +30,12 @@ const createSetting = async(req, res, next) => {
                 const isNewSettingCreated = await dashboardSetting.createSetting(payload);
 
                 if (isNewSettingCreated.isValid) {
+                    registerLog.createInfoLog('New setting creation successfull', isNewSettingCreated);
                     res.status(responseCodes[isNewSettingCreated.resType]).json(
                         buildApiResponse(isNewSettingCreated)
                     );
                 } else {
+                    log.error('Error while creating new setting record in db');
                     return next(isNewSettingCreated);
                 }
             } else {

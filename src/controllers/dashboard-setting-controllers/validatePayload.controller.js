@@ -15,9 +15,9 @@ const validateCreateSettingPayload = (payload) => {
         isValid: true
     };
 
-    const mandatoryFields = ['categoryName', 'categoryDescription', 'categoryType'];
+    const mandatoryFields = ['categoryName', 'categoryDescription', 'categoryType', 'subCategory'];
 
-    if (!payload.categoryName || !payload.categoryDescription || !payload.categoryType || payload.isPeriodic === '') {
+    if (!payload.categoryName || !payload.categoryDescription || !payload.categoryType || !payload.subCategory || payload.isPeriodic === '') {
         response.resType = 'BAD_REQUEST';
         response.resMsg = `Required parameter is missing`;
         response.isValid = false;

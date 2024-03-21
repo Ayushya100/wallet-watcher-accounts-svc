@@ -1,14 +1,18 @@
 'use strict';
 
 import dbConnect from '../../db/index.js';
-import { logger } from 'lib-common-service';
+import { logger, createNewLog } from 'lib-common-service';
 
-const log = logger('controller: create-setting');
+const header = 'controller: create-setting';
+
+const log = logger(header);
+const registerLog = createNewLog(header);
 
 const buildCheckSettingAvailableQuery = (payload) => {
     const queryFindParameter = {
         categoryName: payload.categoryName,
         categoryType: payload.categoryType,
+        subCategory: payload.subCategory,
         duration: payload.duration
     };
     return queryFindParameter;
@@ -19,16 +23,18 @@ const buildNewSettingQuery = (payload) => {
         categoryName: payload.categoryName,
         categoryDescription: payload.categoryDescription,
         categoryType: payload.categoryType,
+        subCategory: payload.subCategory,
         type: payload.type,
         isPeriodic: payload.isPeriodic,
-        duration: payload.duration,
-        createdBy: 'SYSTEM-NEW-SETTING'
+        duration: payload.duration
     };
 
     return createQueryParameter;
 }
 
 const isSettingAvailable = async(payload) => {
+    registerLog.createDebugLog('Start checking if the setting is available');
+
     try {
         log.info('Execution for checking setting controller started');
         let response = {
@@ -63,11 +69,11 @@ const isSettingAvailable = async(payload) => {
 }
 
 const createSetting = async(payload) => {
+    registerLog.createDebugLog('Start creating new setting');
+
     try {
         log.info('Execution for registering new controller started');
-        if (!payload.type) {
-            payload.type = 'Boolean';
-        }
+        payload.type = payload.type || 'Boolean';
 
         const createParameter = buildNewSettingQuery(payload);
 
