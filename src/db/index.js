@@ -2,10 +2,22 @@
 
 import {
     isSettingByNameAvailable,
-    registerNewSetting
-} from './dbQueries.js';
+    registerNewSetting,
+    getAllSettings,
+    isSettingByIdAvailable,
+    createUserDashboardSettings
+} from './settings.db.js';
+import {
+    isUserByUserNameOrEmailAvailable,
+    createNewUser
+} from './users.db.js';
 
 export default {
     isSettingByNameAvailable,
-    registerNewSetting
+    registerNewSetting,
+    getAllSettings,
+    isSettingByIdAvailable,
+    isUserByUserNameOrEmailAvailable,
+    createNewUser,
+    createUserDashboardSettings
 };

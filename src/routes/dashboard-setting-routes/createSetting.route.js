@@ -30,7 +30,7 @@ const createSetting = async(req, res, next) => {
                 const isNewSettingCreated = await dashboardSetting.createSetting(payload);
 
                 if (isNewSettingCreated.isValid) {
-                    registerLog.createInfoLog('New setting creation successfull', isNewSettingCreated);
+                    registerLog.createInfoLog('New setting created successfully', isNewSettingCreated);
                     res.status(responseCodes[isNewSettingCreated.resType]).json(
                         buildApiResponse(isNewSettingCreated)
                     );
@@ -47,6 +47,7 @@ const createSetting = async(req, res, next) => {
             return next(isValidPayload);
         }
     } catch (err) {
+        log.error('Internal Error occurred while working with router functions');
         next({
             resType: 'INTERNAL_SERVER_ERROR',
             resMsg: err,

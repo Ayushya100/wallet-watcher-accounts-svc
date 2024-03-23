@@ -40,6 +40,11 @@ const tokenKey = process.env.ACCESS_TOKEN_KEY;
 
 // Dashboard Setting Routes
 app.post(`${USERS_API}/create-setting`, registerUser, routes.settingRoutes.createSetting);
+app.get(`${USERS_API}/get-setting-info`, registerUser, routes.settingRoutes.getSettingInfo);
+app.get(`${USERS_API}/get-setting-info/:id`, registerUser, routes.settingRoutes.getSettingInfo);
+
+// User Account Routes
+app.post(`${USERS_API}/create-user`, registerUser, routes.userRoutes.createUser);
 
 // Error Handler middleware
 app.use(errorHandler);
