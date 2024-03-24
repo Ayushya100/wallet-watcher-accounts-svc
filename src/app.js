@@ -46,6 +46,7 @@ app.get(`${USERS_API}/get-setting-info/:id`, registerUser, routes.settingRoutes.
 // User Account Routes
 app.post(`${USERS_API}/create-user`, registerUser, routes.userRoutes.createUser);
 app.put(`${USERS_API}/:userId/verify-user`, registerUser, routes.userRoutes.verifyUser);
+app.post(`${USERS_API}/user-login`, registerUser, routes.userRoutes.loginUser);
 
 // Error Handler middleware
 app.use(errorHandler);

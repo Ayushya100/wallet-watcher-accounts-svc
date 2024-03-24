@@ -81,10 +81,36 @@ const validateUserVerificationPayload = (verificationCode) => {
         response.isValid = false;
     }
 
+    returnValidationConfirmation();
+    return response;
+}
+
+// Mandatory parameters check for registering new user
+const validateUserLoginPayload = (payload) => {
+    let response = {
+        resType: 'SUCCESS',
+        resMsg: 'VALIDATION SUCCESSFULL',
+        isValid: true
+    };
+
+    if (!payload.userNameOrEmail) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = 'Required parameter is missing: UserName of EmailId should be provided';
+        response.isValid = false;
+    }
+    
+    if (!payload.password) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = 'Required parameter is missing: password';
+        response.isValid = false;
+    }
+
+    returnValidationConfirmation();
     return response;
 }
 
 export {
     validateRegisterUserPayload,
-    validateUserVerificationPayload
+    validateUserVerificationPayload,
+    validateUserLoginPayload
 };

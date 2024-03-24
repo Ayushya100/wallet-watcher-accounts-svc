@@ -2,7 +2,6 @@
 
 import dbConnect from '../../db/index.js';
 import { logger, createNewLog } from 'lib-common-service';
-import { FRONTEND_URL } from '../../constants.js';
 
 const header = 'controller: verify-user-controller';
 

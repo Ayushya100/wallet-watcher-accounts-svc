@@ -11,7 +11,11 @@ import {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
     isUserByIdAvailable,
-    validateUser
+    validateUser,
+    verifyPassword,
+    generateVerificationCode,
+    reactivateUser,
+    generateAccessAndRefreshTokens
 } from './users.db.js';
 
 export default {
@@ -23,5 +27,9 @@ export default {
     createNewUser,
     createUserDashboardSettings,
     isUserByIdAvailable,
-    validateUser
+    validateUser,
+    verifyPassword,
+    generateVerificationCode,
+    reactivateUser,
+    generateAccessAndRefreshTokens
 };
