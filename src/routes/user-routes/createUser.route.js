@@ -2,6 +2,8 @@
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
 import setting from '../../controllers/index.js';
+import { EMAIL_SVC_URL } from '../../constants.js';
+import axios from 'axios';
 
 const header = 'route: create-user';
 const msg = 'Create User Router started';
@@ -31,6 +33,13 @@ const createUser = async(req, res, next) => {
 
                 if (isUserCreated.isValid) {
                     registerLog.createInfoLog('New user registered successfully', isUserCreated);
+
+                    const mailPayload = userManagementSetting.sendVerificationMailPayload(isUserCreated.data);
+
+                    log.info('Call email service for sending verification mail');
+                    const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
+                    log.info('Email API execution completed');
+
                     res.status(responseCodes[isUserCreated.resType]).json(
                         buildApiResponse(isUserCreated)
                     );
