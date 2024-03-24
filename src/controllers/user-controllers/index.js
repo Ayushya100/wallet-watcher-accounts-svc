@@ -20,6 +20,7 @@ import {
     sendAccountReactivationMailPayload
 } from './loginUser.controller.js';
 import { isTokenAvailableAndActive, refreshTokens } from './refreshAccessToken.controller.js';
+import { logoutUser } from './logoutUser.controller.js';
 
 export default {
     validateRegisterUserPayload,
@@ -37,5 +38,6 @@ export default {
     generateAccessAndRefreshTokens,
     sendAccountReactivationMailPayload,
     isTokenAvailableAndActive,
-    refreshTokens
+    refreshTokens,
+    logoutUser
 };

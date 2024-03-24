@@ -15,7 +15,8 @@ import {
     verifyPassword,
     generateVerificationCode,
     reactivateUser,
-    generateAccessAndRefreshTokens
+    generateAccessAndRefreshTokens,
+    logoutUser
 } from './users.db.js';
 
 export default {
@@ -31,5 +32,6 @@ export default {
     verifyPassword,
     generateVerificationCode,
     reactivateUser,
-    generateAccessAndRefreshTokens
+    generateAccessAndRefreshTokens,
+    logoutUser
 };

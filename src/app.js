@@ -49,6 +49,7 @@ app.put(`${USERS_API}/:userId/verify-user`, registerUser, routes.userRoutes.veri
 app.post(`${USERS_API}/user-login`, registerUser, routes.userRoutes.loginUser);
 app.get(`${USERS_API}/get-user-info/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.getUserInfo);
 app.post(`${USERS_API}/refresh-token`, registerUser, routes.userRoutes.refreshAccessToken);
+app.post(`${USERS_API}/logout-user`, registerUser, verifyToken(tokenKey), routes.userRoutes.logoutUser);
 
 // Error Handler middleware
 app.use(errorHandler);
