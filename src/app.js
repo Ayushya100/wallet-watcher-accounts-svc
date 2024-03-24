@@ -4,7 +4,7 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
-import { registerUser, errorHandler } from 'lib-common-service';
+import { registerUser, errorHandler, verifyToken } from 'lib-common-service';
 
 // User Routes
 import { USERS_API } from './constants.js';
@@ -47,6 +47,7 @@ app.get(`${USERS_API}/get-setting-info/:id`, registerUser, routes.settingRoutes.
 app.post(`${USERS_API}/create-user`, registerUser, routes.userRoutes.createUser);
 app.put(`${USERS_API}/:userId/verify-user`, registerUser, routes.userRoutes.verifyUser);
 app.post(`${USERS_API}/user-login`, registerUser, routes.userRoutes.loginUser);
+app.get(`${USERS_API}/get-user-info/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.getUserInfo);
 
 // Error Handler middleware
 app.use(errorHandler);
