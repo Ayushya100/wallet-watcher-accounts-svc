@@ -4,7 +4,7 @@ import dbConnect from '../../db/index.js';
 import { logger, createNewLog } from 'lib-common-service';
 import { FRONTEND_URL } from '../../constants.js';
 
-const header = 'controller: create-setting';
+const header = 'controller: create-user-controller';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
