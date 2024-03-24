@@ -2,6 +2,7 @@
 
 import dbConnect from '../../db/index.js';
 import { logger, createNewLog } from 'lib-common-service';
+import { FRONTEND_URL } from '../../constants.js';
 
 const header = 'controller: create-setting';
 
@@ -10,6 +11,8 @@ const registerLog = createNewLog(header);
 
 // Check for existing user with provided userName or emailId
 const checkUserByUserNameOrEmail = async(payload) => {
+    registerLog.createDebugLog('Start checking if user is available');
+
     try {
         log.info('Execution for checking user with provided userName or emailId started');
         const emailId = payload.emailId;
@@ -45,6 +48,8 @@ const checkUserByUserNameOrEmail = async(payload) => {
 
 // Create a new user and send verification mail
 const createNewUser = async(payload) => {
+    registerLog.createDebugLog('Start creating new user');
+
     try {
         log.info('Execution for creating new user started');
         log.info('Call db query to create new user');
@@ -91,7 +96,24 @@ const createNewUser = async(payload) => {
     }
 }
 
+const sendVerificationMailPayload = (userData) => {
+    log.info('Execution for creating payload for sending mail started');
+
+    const mailPayload = {
+        emailId: userData.emailId,
+        emailType: 'USER_VERIFICATION_MAIL',
+        context: {
+            fullName: userData.firstName + ' ' + userData.lastName,
+            verificationCode: FRONTEND_URL + '/verify-user/' + userData._id + '/' + userData.verificationCode
+        }
+    };
+
+    log.info('Execution for creating mail payload completed');
+    return mailPayload;
+}
+
 export {
     checkUserByUserNameOrEmail,
-    createNewUser
+    createNewUser,
+    sendVerificationMailPayload
 };
