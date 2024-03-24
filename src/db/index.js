@@ -9,7 +9,9 @@ import {
 } from './settings.db.js';
 import {
     isUserByUserNameOrEmailAvailable,
-    createNewUser
+    createNewUser,
+    isUserByIdAvailable,
+    validateUser
 } from './users.db.js';
 
 export default {
@@ -19,5 +21,7 @@ export default {
     isSettingByIdAvailable,
     isUserByUserNameOrEmailAvailable,
     createNewUser,
-    createUserDashboardSettings
+    createUserDashboardSettings,
+    isUserByIdAvailable,
+    validateUser
 };

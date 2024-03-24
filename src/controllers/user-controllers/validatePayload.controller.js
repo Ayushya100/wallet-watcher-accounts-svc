@@ -67,6 +67,24 @@ const validateRegisterUserPayload = (payload) => {
     return response;
 }
 
+// Mandatory parameters check for verifying new user
+const validateUserVerificationPayload = (verificationCode) => {
+    let response = {
+        resType: 'SUCCESS',
+        resMsg: 'VALIDATION SUCCESSFULL',
+        isValid: true
+    };
+
+    if (!verificationCode) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = 'Required parameter is missing';
+        response.isValid = false;
+    }
+
+    return response;
+}
+
 export {
-    validateRegisterUserPayload
+    validateRegisterUserPayload,
+    validateUserVerificationPayload
 };
