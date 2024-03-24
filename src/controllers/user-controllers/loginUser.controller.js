@@ -102,11 +102,12 @@ const isUserActive = async(user) => {
 // Login and generate tokens
 const generateAccessAndRefreshTokens = async(userId) => {
     registerLog.createDebugLog('Generate tokens for user');
-    log.info('Execution for generating access and refresh token has been initiated');
-
+    
     try {
-        log.info('Execution for generating tokens completed');
+        log.info('Execution for generating access and refresh token has been initiated');
         const loggedInUser = await dbConnect.generateAccessAndRefreshTokens(userId);
+        
+        log.info('Execution for generating tokens completed');
         return {
             resType: 'SUCCESS',
             resMsg: 'LOGIN SUCCESSFULL',
