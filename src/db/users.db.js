@@ -159,6 +159,25 @@ const generateAccessAndRefreshTokens = async(userId) => {
     };
 }
 
+const logoutUser = async(userId) => {
+    await UserModel.findByIdAndUpdate(
+        {
+            _id: userId
+        },
+        {
+            $set: {
+                refreshToken: null,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    );
+    return true;
+}
+
 export {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
@@ -167,5 +186,6 @@ export {
     verifyPassword,
     generateVerificationCode,
     reactivateUser,
-    generateAccessAndRefreshTokens
+    generateAccessAndRefreshTokens,
+    logoutUser
 };
