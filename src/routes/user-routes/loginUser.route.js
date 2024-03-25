@@ -1,7 +1,7 @@
 'use strict';
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
-import setting from '../../controllers/index.js';
+import controller from '../../controllers/index.js';
 import { EMAIL_SVC_URL, COOKIE_OPTIONS } from '../../constants.js';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ const msg = 'Login User Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
-const userManagementSetting = setting.userManagementSetting;
+const userManagementController = controller.userManagementController;
 
 // API Function
 const loginUser = async(req, res, next) => {
@@ -21,22 +21,22 @@ const loginUser = async(req, res, next) => {
         const payload = req.body;
 
         log.info('Call payload validator');
-        const isValidPayload = userManagementSetting.validateUserLoginPayload(payload);
+        const isValidPayload = userManagementController.validateUserLoginPayload(payload);
 
         if (isValidPayload.isValid) {
             log.info('Call controller function to check if user is an authorized user');
-            const isUserValid = await userManagementSetting.isUserValid(payload);
+            const isUserValid = await userManagementController.isUserValid(payload);
 
             if (isUserValid.isValid) {
                 log.info('Call controller function to check if user is verified');
-                const isUserVerified = await userManagementSetting.isUserVerified(isUserValid.data);
+                const isUserVerified = await userManagementController.isUserVerified(isUserValid.data);
 
                 if (isUserVerified.isValid) {
                     log.info('Call controller function to reactivate inactive user');
-                    const userReactivated = await userManagementSetting.isUserActive(isUserValid.data);
+                    const userReactivated = await userManagementController.isUserActive(isUserValid.data);
 
                     if (userReactivated) {
-                        const mailPayload = userManagementSetting.sendAccountReactivationMailPayload(isUserValid.data);
+                        const mailPayload = userManagementController.sendAccountReactivationMailPayload(isUserValid.data);
                     
                         log.info('Call email service for sending account reactivation mail');
                         await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
@@ -44,7 +44,7 @@ const loginUser = async(req, res, next) => {
                     }
 
                     log.info('Call controller function to login the user and setup the tokens');
-                    const loggedInUser = await userManagementSetting.generateAccessAndRefreshTokens(isUserValid.data._id);
+                    const loggedInUser = await userManagementController.generateAccessAndRefreshTokens(isUserValid.data._id);
                     
                     res.status(responseCodes[loggedInUser.resType])
                     .cookie('accessToken', loggedInUser.data.accessToken, COOKIE_OPTIONS)
@@ -54,7 +54,7 @@ const loginUser = async(req, res, next) => {
                     );
                 } else {
                     log.error('Error while check for verified user');
-                    const mailPayload = userManagementSetting.sendVerificationMailPayload(isUserVerified.data);
+                    const mailPayload = userManagementController.sendVerificationMailPayload(isUserVerified.data);
 
                     log.info('Call email service for sending verification mail');
                     await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);

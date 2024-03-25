@@ -1,9 +1,9 @@
 'use strict';
 
-import dashboardSetting from './dashboard-setting-controllers/index.js';
-import userManagementSetting from './user-controllers/index.js';
+import dashboardController from './dashboard-setting-controllers/index.js';
+import userManagementController from './user-controllers/index.js';
 
 export default {
-    dashboardSetting,
-    userManagementSetting
+    dashboardController,
+    userManagementController
 };

@@ -1,14 +1,14 @@
 'use strict';
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
-import setting from '../../controllers/index.js';
+import controller from '../../controllers/index.js';
 
 const header = 'route: get-user-info';
 const msg = 'Get User Info Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
-const userManagementSetting = setting.userManagementSetting;
+const userManagementController = controller.userManagementController;
 
 // API Function
 const getUserInfo = async(req, res, next) => {
@@ -19,7 +19,7 @@ const getUserInfo = async(req, res, next) => {
         const userId = req.params.userId;
 
         log.info('Call controller function to get user records');
-        const getUserInfo = await userManagementSetting.checkUserById(userId);
+        const getUserInfo = await userManagementController.checkUserById(userId);
 
         if (getUserInfo.isValid) {
             res.status(responseCodes[getUserInfo.resType]).json(

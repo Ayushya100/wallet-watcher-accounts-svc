@@ -1,14 +1,14 @@
 'use strict';
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
-import setting from '../../controllers/index.js';
+import controller from '../../controllers/index.js';
 
 const header = 'route: get-setting-info';
 const msg = 'Get Setting Info Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
-const dashboardSetting = setting.dashboardSetting;
+const dashboardController = controller.dashboardController;
 
 // API Function
 const getSettingInfo = async(req, res, next) => {
@@ -20,7 +20,7 @@ const getSettingInfo = async(req, res, next) => {
 
         if (!settingId) {
             log.info('Call controller function to get all settings info');
-            const isAllSettingsFound = await dashboardSetting.getAllSettings();
+            const isAllSettingsFound = await dashboardController.getAllSettings();
 
             if (isAllSettingsFound.isValid) {
                 registerLog.createInfoLog('Successfully returned all settings information');
@@ -33,7 +33,7 @@ const getSettingInfo = async(req, res, next) => {
             }
         } else {
             log.info('Call controller function to get the setting info by id');
-            const isSettingInfoFound = await dashboardSetting.getSettingInfoById(settingId);
+            const isSettingInfoFound = await dashboardController.getSettingInfoById(settingId);
 
             if (isSettingInfoFound.isValid) {
                 registerLog.createInfoLog('Successfully returned the requested setting information', isSettingInfoFound);

@@ -5,7 +5,8 @@ import {
     registerNewSetting,
     getAllSettings,
     isSettingByIdAvailable,
-    createUserDashboardSettings
+    createUserDashboardSettings,
+    updateSettingDetails
 } from './settings.db.js';
 import {
     isUserByUserNameOrEmailAvailable,
@@ -27,6 +28,7 @@ export default {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
     createUserDashboardSettings,
+    updateSettingDetails,
     isUserByIdAvailable,
     validateUser,
     verifyPassword,

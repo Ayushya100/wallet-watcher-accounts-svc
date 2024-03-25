@@ -1,7 +1,7 @@
 'use strict';
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
-import setting from '../../controllers/index.js';
+import controller from '../../controllers/index.js';
 import { COOKIE_OPTIONS } from '../../constants.js';
 
 const header = 'route: logout-user';
@@ -9,7 +9,7 @@ const msg = 'Logout User Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
-const userManagementSetting = setting.userManagementSetting;
+const userManagementController = controller.userManagementController;
 
 // API Function
 const logoutUser = async(req, res, next) => {
@@ -20,11 +20,11 @@ const logoutUser = async(req, res, next) => {
         const userId = req.user.userId;
 
         log.info('Call controller function to check if user exists');
-        const isUserAvailable = await userManagementSetting.checkUserById(userId);
+        const isUserAvailable = await userManagementController.checkUserById(userId);
 
         if (isUserAvailable.isValid) {
             log.info('Call controller function to logout user');
-            const isUserLoggedout = await userManagementSetting.logoutUser(userId);
+            const isUserLoggedout = await userManagementController.logoutUser(userId);
 
             if (isUserLoggedout.isValid) {
                 res.status(responseCodes[isUserLoggedout.resType])

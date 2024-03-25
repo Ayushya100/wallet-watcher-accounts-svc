@@ -1,7 +1,7 @@
 'use strict';
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
-import setting from '../../controllers/index.js';
+import controller from '../../controllers/index.js';
 import { COOKIE_OPTIONS } from '../../constants.js';
 
 const header = 'route: refresh-token';
@@ -9,7 +9,7 @@ const msg = 'Refresh User Token Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
-const userManagementSetting = setting.userManagementSetting;
+const userManagementController = controller.userManagementController;
 
 // API Function
 const refreshAccessToken = async(req, res, next) => {
@@ -20,11 +20,11 @@ const refreshAccessToken = async(req, res, next) => {
         const refreshToken = req.cookies.refreshToken || req.body.refreshToken;
 
         log.info('Call controller function to check the validity of token');
-        const isTokenActive = userManagementSetting.isTokenAvailableAndActive(refreshToken);
+        const isTokenActive = userManagementController.isTokenAvailableAndActive(refreshToken);
        
         if (isTokenActive.isValid) {
             log.info('Call controller function to refresh the user token');
-            const refreshedTokens = await userManagementSetting.refreshTokens(isTokenActive.data._id);
+            const refreshedTokens = await userManagementController.refreshTokens(isTokenActive.data._id);
 
             if (refreshedTokens.isValid) {
                 res.status(responseCodes[refreshedTokens.resType])
