@@ -23,7 +23,8 @@ import {
     logoutUser,
     getSelectedUsersId,
     getAllUsersId,
-    updateUserInfo
+    updateUserInfo,
+    updateUserPassword
 } from './users.db.js';
 
 export default {
@@ -47,5 +48,6 @@ export default {
     logoutUser,
     getSelectedUsersId,
     getAllUsersId,
-    updateUserInfo
+    updateUserInfo,
+    updateUserPassword
 };
