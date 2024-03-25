@@ -5,15 +5,15 @@ import controller from '../../controllers/index.js';
 import { EMAIL_SVC_URL } from '../../constants.js';
 import axios from 'axios';
 
-const header = 'route: update-user-details';
-const msg = 'Update User details Router started';
+const header = 'route: update-user-password';
+const msg = 'Update User Password Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
 const userManagementController = controller.userManagementController;
 
 // API Function
-const updateUserDetails = async(req, res, next) => {
+const updateUserPassword = async(req, res, next) => {
     log.info(msg);
     registerLog.createInfoLog(msg);
 
@@ -21,32 +21,32 @@ const updateUserDetails = async(req, res, next) => {
         const userId = req.params.userId;
         const payload = req.body;
 
-        log.info('Call payload validator')
-        const isValidPayload = userManagementController.validateUserDetailsPayload(payload);
+        log.info('Call payload validator');
+        const isValidPayload = userManagementController.validatePasswordUpdatePayload(payload);
 
-        if (isValidPayload.isValid) {
+        if(isValidPayload.isValid) {
             log.info('Call controller function to check if user exists');
             const isUserAvailable = await userManagementController.checkUserById(userId);
 
             if (isUserAvailable.isValid) {
-                log.info('Call controller function to update the user details');
-                const isUserInfoUpdated = await userManagementController.updateUserDetails(userId, payload);
+                log.info('Call controller function to update password');
+                const isPasswordUpdated = await userManagementController.updateUserPassword(userId, payload);
+                
+                if (isPasswordUpdated.isValid) {
+                    registerLog.createInfoLog('User password updated successfully', isPasswordUpdated);
 
-                if (isUserInfoUpdated.isValid) {
-                    registerLog.createInfoLog('User details updated successfully', isUserInfoUpdated);
+                    const mailPayload = userManagementController.sendUpdatePasswordMailPayload(isPasswordUpdated.data);
 
-                    const mailPayload = userManagementController.sendUpdateDetailsMailPayload(isUserInfoUpdated.data);
-
-                    log.info('Call email service for sending update mail');
+                    log.info('Call email service for sending password update mail');
                     const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
                     log.info('Email API execution completed');
 
-                    res.status(responseCodes[isUserInfoUpdated.resType]).json(
-                        buildApiResponse(isUserInfoUpdated)
+                    res.status(responseCodes[isPasswordUpdated.resType]).json(
+                        buildApiResponse(isPasswordUpdated)
                     );
                 } else {
-                    log.error('Error while updating user details');
-                    return next(isUserInfoUpdated);
+                    log.error('Error while updating the password for the user');
+                    return next(isPasswordUpdated);
                 }
             } else {
                 log.error('Error while checking for existing record');
@@ -67,4 +67,4 @@ const updateUserDetails = async(req, res, next) => {
     }
 }
 
-export default updateUserDetails;
+export default updateUserPassword;

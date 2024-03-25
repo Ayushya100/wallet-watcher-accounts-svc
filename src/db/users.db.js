@@ -225,6 +225,32 @@ const updateUserInfo = async(userId, payload) => {
     return updatedUserInfo;
 }
 
+const isPasswordValid = async(user, password) => {
+    if (!(await user.isPasswordCorrect(password))) {
+        return false;
+    }
+    return true;
+}
+
+const updateUserPassword = async(userId, payload) => {
+    const currentUserInfo = await UserModel.findOne({
+        _id: userId
+    });
+
+    if (await isPasswordValid(currentUserInfo, payload.oldPassword)) {
+        currentUserInfo.password = payload.newPassword;
+        currentUserInfo.modifiedOn = Date.now();
+        currentUserInfo.modifiedBy = userId;
+        await currentUserInfo.save({
+            validateBeforeSave: false
+        });
+    
+        const updatedUserInfo = await isUserByIdAvailable(userId);
+        return updatedUserInfo;
+    }
+    return false;
+}
+
 export {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
@@ -237,5 +263,6 @@ export {
     logoutUser,
     getSelectedUsersId,
     getAllUsersId,
-    updateUserInfo
+    updateUserInfo,
+    updateUserPassword
 };
