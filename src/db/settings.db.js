@@ -79,6 +79,38 @@ const getUsersWithAssignedSetting = async(userIds, settingId) => {
     return usersAlreadyAssigned;
 }
 
+const getAllUsersWithAssignedSetting = async(settingId) => {
+    const usersAssignedDetails = await UserDashboardModel.find({
+        settingId: settingId,
+        isDeleted: false
+    }).select('userId');
+    return usersAssignedDetails;
+}
+
+const deassignUserSettings = async(ids) => {
+    const updatedSettingDetails = await UserDashboardModel.updateMany(
+        {
+            _id: {
+                $in: ids
+            },
+            isDeleted: false
+        },
+        {
+            $set: {
+                isDeleted: true,
+                modifiedOn: Date.now(),
+                modifiedBy: 'SYSTEM_DEASSIGN'
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        'settingId type value isDeleted'
+    );
+    return updatedSettingDetails;
+}
+
 export {
     isSettingByNameAvailable,
     registerNewSetting,
@@ -86,5 +118,7 @@ export {
     isSettingByIdAvailable,
     createUserDashboardSettings,
     updateSettingDetails,
-    getUsersWithAssignedSetting
+    getUsersWithAssignedSetting,
+    getAllUsersWithAssignedSetting,
+    deassignUserSettings
 };
