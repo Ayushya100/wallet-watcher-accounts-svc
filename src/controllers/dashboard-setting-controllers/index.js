@@ -10,6 +10,7 @@ import { getAllSettings, getSettingInfoById } from './getSettingInfo.controller.
 import { isSettingByIdAvailable } from './shared.controller.js';
 import { updateSettings } from './updateSetting.controller.js';
 import { assignSettingToUser } from './assignSetting.controller.js';
+import { deassignSettingFromUser } from './deassignSettingFromUser.controller.js';
 
 export default {
     validateCreateSettingPayload,
@@ -21,5 +22,6 @@ export default {
     getSettingInfoById,
     isSettingByIdAvailable,
     updateSettings,
-    assignSettingToUser
+    assignSettingToUser,
+    deassignSettingFromUser
 };

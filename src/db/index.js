@@ -7,7 +7,9 @@ import {
     isSettingByIdAvailable,
     createUserDashboardSettings,
     updateSettingDetails,
-    getUsersWithAssignedSetting
+    getUsersWithAssignedSetting,
+    getAllUsersWithAssignedSetting,
+    deassignUserSettings
 } from './settings.db.js';
 import {
     isUserByUserNameOrEmailAvailable,
@@ -33,6 +35,8 @@ export default {
     createUserDashboardSettings,
     updateSettingDetails,
     getUsersWithAssignedSetting,
+    getAllUsersWithAssignedSetting,
+    deassignUserSettings,
     isUserByIdAvailable,
     validateUser,
     verifyPassword,
