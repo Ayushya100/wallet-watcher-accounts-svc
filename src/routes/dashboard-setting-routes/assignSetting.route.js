@@ -34,6 +34,7 @@ const assignSettingsToUser = async(req, res, next) => {
                 const isSettingAssigned = await dashboardController.assignSettingToUser(payload);
 
                 if (isSettingAssigned.isValid) {
+                    registerLog.createInfoLog('Setting assigned to users successfully', isSettingAssigned);
                     res.status(responseCodes[isSettingAssigned.resType]).json(
                         buildApiResponse(isSettingAssigned)
                     );

@@ -22,7 +22,8 @@ import {
     generateAccessAndRefreshTokens,
     logoutUser,
     getSelectedUsersId,
-    getAllUsersId
+    getAllUsersId,
+    updateUserInfo
 } from './users.db.js';
 
 export default {
@@ -45,5 +46,6 @@ export default {
     generateAccessAndRefreshTokens,
     logoutUser,
     getSelectedUsersId,
-    getAllUsersId
+    getAllUsersId,
+    updateUserInfo
 };

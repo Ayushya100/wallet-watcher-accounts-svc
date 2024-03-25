@@ -6,6 +6,7 @@ import loginUser from './loginUser.route.js';
 import getUserInfo from './getUserInfo.route.js';
 import refreshAccessToken from './refreshAccessToken.route.js';
 import logoutUser from './logoutUser.route.js';
+import updateUserDetails from './updateUserDetails.route.js';
 
 export default {
     createUser,
@@ -13,5 +14,6 @@ export default {
     loginUser,
     getUserInfo,
     refreshAccessToken,
-    logoutUser
+    logoutUser,
+    updateUserDetails
 };

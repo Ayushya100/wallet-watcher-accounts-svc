@@ -21,6 +21,10 @@ const validPassword = (password) => {
     return validators.password.test(password);
 }
 
+const validContactNumber = (number) => {
+    return validators.contactNumber.test(number);
+}
+
 // Mandatory parameters check for registering new user
 const validateRegisterUserPayload = (payload) => {
     let response = {
@@ -109,8 +113,33 @@ const validateUserLoginPayload = (payload) => {
     return response;
 }
 
+// Mandatory parameter check for updating user details
+const validateUserDetailsPayload = (payload) => {
+    let response = {
+        resType: 'SUCCESS',
+        resMsg: 'VALIDATION SUCCESSFULL',
+        isValid: true
+    };
+
+    if (payload.contactNumber && !validContactNumber(payload.contactNumber)) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = 'Pattern invalid. Contact Number incorrect';
+        response.isValid = false;
+    }
+    
+    if (payload.userName !== '' && payload.userName !== undefined && !validUserName(payload.userName)) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = 'Pattern invalid. Username incorrect';
+        response.isValid = false;
+    }
+
+    returnValidationConfirmation();
+    return response;
+}
+
 export {
     validateRegisterUserPayload,
     validateUserVerificationPayload,
-    validateUserLoginPayload
+    validateUserLoginPayload,
+    validateUserDetailsPayload
 };
