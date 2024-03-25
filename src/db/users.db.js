@@ -196,6 +196,35 @@ const logoutUser = async(userId) => {
     return true;
 }
 
+const updateUserInfo = async(userId, payload) => {
+    const currentUserInfo = await isUserByIdAvailable(userId);
+
+    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+        {
+            _id: userId
+        },
+        {
+            $set: {
+                firstName: payload.firstName || currentUserInfo.firstName,
+                lastName: payload.lastName || currentUserInfo.lastName,
+                userName: payload.userName || currentUserInfo.userName,
+                bio: payload.bio || currentUserInfo.bio,
+                gender: payload.gender || currentUserInfo.gender,
+                dob: payload.dob || currentUserInfo.dob,
+                contactNumber: payload.contactNumber || currentUserInfo.contactNumber,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        '-password -refreshToken -isDeleted -createdBy -modifiedBy'
+    );
+    return updatedUserInfo;
+}
+
 export {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
@@ -207,5 +236,6 @@ export {
     generateAccessAndRefreshTokens,
     logoutUser,
     getSelectedUsersId,
-    getAllUsersId
+    getAllUsersId,
+    updateUserInfo
 };

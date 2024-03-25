@@ -23,7 +23,7 @@ const getSettingInfo = async(req, res, next) => {
             const isAllSettingsFound = await dashboardController.getAllSettings();
 
             if (isAllSettingsFound.isValid) {
-                registerLog.createInfoLog('Successfully returned all settings information');
+                registerLog.createInfoLog('Successfully returned all settings information', isAllSettingsFound);
                 res.status(responseCodes[isAllSettingsFound.resType]).json(
                     buildApiResponse(isAllSettingsFound)
                 );

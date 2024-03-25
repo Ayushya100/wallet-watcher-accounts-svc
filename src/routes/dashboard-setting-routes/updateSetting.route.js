@@ -36,6 +36,7 @@ const updateSetting = async(req, res, next) => {
                     const isSettingUpdated = await dashboardController.updateSettings(settingId, payload, isSettingAvailable.data);
                     
                     if (isSettingUpdated.isValid) {
+                        registerLog.createInfoLog('Update setting details successfully', isSettingUpdated);
                         res.status(responseCodes[isSettingUpdated.resType]).json(
                             buildApiResponse(isSettingUpdated)
                         );
