@@ -1,14 +1,14 @@
 'use strict';
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
-import setting from '../../controllers/index.js';
+import controller from '../../controllers/index.js';
 
 const header = 'route: create-setting';
 const msg = 'Create Setting Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
-const dashboardSetting = setting.dashboardSetting;
+const dashboardController = controller.dashboardController;
 
 // API Function
 const createSetting = async(req, res, next) => {
@@ -19,15 +19,15 @@ const createSetting = async(req, res, next) => {
         const payload = req.body;
         
         log.info('Call payload validator');
-        const isValidPayload = dashboardSetting.validateCreateSettingPayload(payload);
+        const isValidPayload = dashboardController.validateCreateSettingPayload(payload);
 
         if (isValidPayload.isValid) {
             log.info('Call controller function to check for existing record');
-            const isSettingAvailable = await dashboardSetting.isSettingAvailable(payload);
+            const isSettingAvailable = await dashboardController.isSettingAvailable(payload);
 
             if (isSettingAvailable.isValid) {
                 log.info('Call controller function to register new setting started');
-                const isNewSettingCreated = await dashboardSetting.createSetting(payload);
+                const isNewSettingCreated = await dashboardController.createSetting(payload);
 
                 if (isNewSettingCreated.isValid) {
                     registerLog.createInfoLog('New setting created successfully', isNewSettingCreated);

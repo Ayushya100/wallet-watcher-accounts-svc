@@ -1,7 +1,7 @@
 'use strict';
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
-import setting from '../../controllers/index.js';
+import controller from '../../controllers/index.js';
 import { EMAIL_SVC_URL } from '../../constants.js';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ const msg = 'Create User Router started';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
-const userManagementSetting = setting.userManagementSetting;
+const userManagementController = controller.userManagementController;
 
 // API Function
 const createUser = async(req, res, next) => {
@@ -21,20 +21,20 @@ const createUser = async(req, res, next) => {
         const payload = req.body;
 
         log.info('Call payload validator');
-        const isValidPayload = userManagementSetting.validateRegisterUserPayload(payload);
+        const isValidPayload = userManagementController.validateRegisterUserPayload(payload);
 
         if (isValidPayload.isValid) {
             log.info('Call controller function to check user already exists');
-            const isUserExists = await userManagementSetting.checkUserByUserNameOrEmail(payload);
+            const isUserExists = await userManagementController.checkUserByUserNameOrEmail(payload);
 
             if (isUserExists.isValid) {
                 log.info('Call controller function to register new user started');
-                const isUserCreated = await userManagementSetting.createNewUser(payload);
+                const isUserCreated = await userManagementController.createNewUser(payload);
 
                 if (isUserCreated.isValid) {
                     registerLog.createInfoLog('New user registered successfully', isUserCreated);
 
-                    const mailPayload = userManagementSetting.sendVerificationMailPayload(isUserCreated.data);
+                    const mailPayload = userManagementController.sendVerificationMailPayload(isUserCreated.data);
 
                     log.info('Call email service for sending verification mail');
                     const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
