@@ -43,6 +43,7 @@ app.post(`${USERS_API}/create-setting`, registerUser, routes.settingRoutes.creat
 app.get(`${USERS_API}/get-setting-info`, registerUser, routes.settingRoutes.getSettingInfo);
 app.get(`${USERS_API}/get-setting-info/:id`, registerUser, routes.settingRoutes.getSettingInfo);
 app.put(`${USERS_API}/update-settings/:id`, registerUser, routes.settingRoutes.updateSetting);
+app.post(`${USERS_API}/assign-settings/:id`, registerUser, routes.settingRoutes.assignSettingsToUser);
 
 // User Account Routes
 app.post(`${USERS_API}/create-user`, registerUser, routes.userRoutes.createUser);
