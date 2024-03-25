@@ -68,11 +68,23 @@ const updateSettingDetails = async(settingId, payload) => {
     return updatedDetails;
 }
 
+const getUsersWithAssignedSetting = async(userIds, settingId) => {
+    const usersAlreadyAssigned = await UserDashboardModel.find({
+        userId: {
+            $in: userIds
+        },
+        settingId: settingId,
+        isDeleted: false
+    }).select('userId');
+    return usersAlreadyAssigned;
+}
+
 export {
     isSettingByNameAvailable,
     registerNewSetting,
     getAllSettings,
     isSettingByIdAvailable,
     createUserDashboardSettings,
-    updateSettingDetails
+    updateSettingDetails,
+    getUsersWithAssignedSetting
 };

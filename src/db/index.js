@@ -6,7 +6,8 @@ import {
     getAllSettings,
     isSettingByIdAvailable,
     createUserDashboardSettings,
-    updateSettingDetails
+    updateSettingDetails,
+    getUsersWithAssignedSetting
 } from './settings.db.js';
 import {
     isUserByUserNameOrEmailAvailable,
@@ -17,7 +18,9 @@ import {
     generateVerificationCode,
     reactivateUser,
     generateAccessAndRefreshTokens,
-    logoutUser
+    logoutUser,
+    getSelectedUsersId,
+    getAllUsersId
 } from './users.db.js';
 
 export default {
@@ -29,11 +32,14 @@ export default {
     createNewUser,
     createUserDashboardSettings,
     updateSettingDetails,
+    getUsersWithAssignedSetting,
     isUserByIdAvailable,
     validateUser,
     verifyPassword,
     generateVerificationCode,
     reactivateUser,
     generateAccessAndRefreshTokens,
-    logoutUser
+    logoutUser,
+    getSelectedUsersId,
+    getAllUsersId
 };

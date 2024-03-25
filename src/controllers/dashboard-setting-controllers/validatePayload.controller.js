@@ -57,7 +57,25 @@ const validateUpdateSettingPayload = (payload) => {
     return response;
 }
 
+const validateAssignSettingPayload = (payload) => {
+    let response = {
+        resType: 'SUCCESS',
+        resMsg: 'VALIDATION SUCCESSFULL',
+        isValid: true
+    };
+    
+    if (!payload.value) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = 'Default Value is required';
+        response.isValid = false;
+    }
+
+    returnValidationConfirmation();
+    return response;
+}
+
 export {
     validateCreateSettingPayload,
-    validateUpdateSettingPayload
+    validateUpdateSettingPayload,
+    validateAssignSettingPayload
 };

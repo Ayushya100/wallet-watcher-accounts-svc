@@ -24,6 +24,24 @@ const isUserByIdAvailable = async(userId) => {
     return isUserExist;
 }
 
+const getSelectedUsersId = async(userIds) => {
+    const selectedUsersId = await UserModel.find({
+        _id: {
+            $in: userIds
+        },
+        isDeleted: false
+    }).select('_id');
+
+    return selectedUsersId;
+}
+
+const getAllUsersId = async() => {
+    const allUsersId = await UserModel.find({
+        isDeleted: false
+    }).select('_id');
+    return allUsersId;
+}
+
 const generateVerificationCode = async(userId) => {
     const user = await UserModel.findById({ _id: userId });
     const verificationCode = uuidv4() + user._id;
@@ -187,5 +205,7 @@ export {
     generateVerificationCode,
     reactivateUser,
     generateAccessAndRefreshTokens,
-    logoutUser
+    logoutUser,
+    getSelectedUsersId,
+    getAllUsersId
 };
