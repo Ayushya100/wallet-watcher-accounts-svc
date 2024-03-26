@@ -21,7 +21,7 @@ const updateUserDetails = async(req, res, next) => {
         const userId = req.params.userId;
         const payload = req.body;
 
-        log.info('Call payload validator')
+        log.info('Call payload validator');
         const isValidPayload = userManagementController.validateUserDetailsPayload(payload);
 
         if (isValidPayload.isValid) {
