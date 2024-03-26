@@ -42,6 +42,13 @@ const getAllUsersId = async() => {
     return allUsersId;
 }
 
+const getCompleteUserInfoById = async(userId) => {
+    const userInfo = await UserModel.findById({
+        _id: userId
+    });
+    return userInfo;
+}
+
 const generateVerificationCode = async(userId) => {
     const user = await UserModel.findById({ _id: userId });
     const verificationCode = uuidv4() + user._id;
@@ -251,6 +258,28 @@ const updateUserPassword = async(userId, payload) => {
     return false;
 }
 
+const userDeactivate = async(userId) => {
+    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+        {
+            _id: userId
+        },
+        {
+            $set: {
+                isDeleted: true,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        '-password -createdBy -modifiedBy'
+    );
+    return updatedUserInfo;
+}
+
+
 export {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
@@ -264,5 +293,8 @@ export {
     getSelectedUsersId,
     getAllUsersId,
     updateUserInfo,
-    updateUserPassword
+    updateUserPassword,
+    isPasswordValid,
+    getCompleteUserInfoById,
+    userDeactivate
 };

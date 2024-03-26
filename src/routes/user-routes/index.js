@@ -8,6 +8,7 @@ import refreshAccessToken from './refreshAccessToken.route.js';
 import logoutUser from './logoutUser.route.js';
 import updateUserDetails from './updateUserDetails.route.js';
 import updateUserPassword from './updateUserPassword.route.js';
+import deactivateUser from './deactivateUser.route.js';
 
 export default {
     createUser,
@@ -17,5 +18,6 @@ export default {
     refreshAccessToken,
     logoutUser,
     updateUserDetails,
-    updateUserPassword
+    updateUserPassword,
+    deactivateUser
 };
