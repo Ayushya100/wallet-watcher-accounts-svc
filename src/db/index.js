@@ -27,7 +27,8 @@ import {
     updateUserPassword,
     isPasswordValid,
     getCompleteUserInfoById,
-    userDeactivate
+    userDeactivate,
+    updateProfileImage
 } from './users.db.js';
 
 export default {
@@ -55,5 +56,6 @@ export default {
     updateUserPassword,
     isPasswordValid,
     getCompleteUserInfoById,
-    userDeactivate
+    userDeactivate,
+    updateProfileImage
 };

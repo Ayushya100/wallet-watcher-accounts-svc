@@ -6,8 +6,10 @@ import cookieParser from 'cookie-parser';
 import rateLimit from 'express-rate-limit';
 import { registerUser, errorHandler, verifyToken } from 'lib-common-service';
 
-// User Routes
 import { USERS_API } from './constants.js';
+import { upload } from './middlewares/index.js';
+
+// User Routes
 import routes from '../src/routes/index.js';
 
 const app = express();
@@ -56,6 +58,7 @@ app.post(`${USERS_API}/logout-user`, registerUser, verifyToken(tokenKey), routes
 app.put(`${USERS_API}/update-profile/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.updateUserDetails);
 app.put(`${USERS_API}/update-user-password/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.updateUserPassword);
 app.put(`${USERS_API}/deactivate-user/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.deactivateUser);
+app.put(`${USERS_API}/update-profile-image/:userId`, registerUser, verifyToken(tokenKey), upload.single('profileImage'), routes.userRoutes.updateProfileImage);
 
 // Error Handler middleware
 app.use(errorHandler);
