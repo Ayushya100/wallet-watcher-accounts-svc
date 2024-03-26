@@ -55,6 +55,7 @@ app.post(`${USERS_API}/refresh-token`, registerUser, routes.userRoutes.refreshAc
 app.post(`${USERS_API}/logout-user`, registerUser, verifyToken(tokenKey), routes.userRoutes.logoutUser);
 app.put(`${USERS_API}/update-profile/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.updateUserDetails);
 app.put(`${USERS_API}/update-user-password/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.updateUserPassword);
+app.put(`${USERS_API}/deactivate-user/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.deactivateUser);
 
 // Error Handler middleware
 app.use(errorHandler);
