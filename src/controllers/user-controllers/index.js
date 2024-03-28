@@ -7,14 +7,15 @@ import {
     validateUserDetailsPayload,
     validatePasswordUpdatePayload,
     validateDeactivateUserPayload,
-    validateProfileImagePayload
+    validateProfileImagePayload,
+    validateResetRequestPayload
 } from './validatePayload.controller.js';
 import {
     checkUserByUserNameOrEmail,
     createNewUser,
     sendVerificationMailPayload
 } from './createUser.controller.js';
-import { checkUserById } from './shared.controller.js';
+import { checkUserById, checkUserByEmailOrUserName } from './shared.controller.js';
 import { verifyUser, sendVerificationSuccessfulMailPayload } from './verifyUser.controller.js';
 import {
     isUserValid,
@@ -26,7 +27,12 @@ import {
 import { isTokenAvailableAndActive, refreshTokens } from './refreshAccessToken.controller.js';
 import { logoutUser } from './logoutUser.controller.js';
 import { updateUserDetails, sendUpdateDetailsMailPayload } from './updateUserDetails.controller.js';
-import { updateUserPassword, sendUpdatePasswordMailPayload } from './updateUserPassword.controller.js';
+import {
+    updateUserPassword,
+    requestReset,
+    sendUpdatePasswordMailPayload,
+    sendPasswordLinkMailPayload
+} from './updateUserPassword.controller.js';
 import {
     validateUserCredentials,
     deactivateUser,
@@ -42,6 +48,7 @@ export default {
     validatePasswordUpdatePayload,
     validateDeactivateUserPayload,
     validateProfileImagePayload,
+    validateResetRequestPayload,
     checkUserByUserNameOrEmail,
     createNewUser,
     sendVerificationMailPayload,
@@ -64,5 +71,8 @@ export default {
     deactivateUser,
     sendAccountDeactivateMailPayload,
     updateProfileImage,
-    deleteProfileImage
+    deleteProfileImage,
+    checkUserByEmailOrUserName,
+    requestReset,
+    sendPasswordLinkMailPayload
 };

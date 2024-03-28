@@ -197,6 +197,24 @@ const validateProfileImagePayload = (profileImagePath) => {
     return response;
 }
 
+// Mandatory parameter check for requesting reset
+const validateResetRequestPayload = (userNameOrEmail) => {
+    let response = {
+        resType: 'SUCCESS',
+        resMsg: 'VALIDATION SUCCESSFULL',
+        isValid: true
+    };
+
+    if(!userNameOrEmail) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = 'Required Parameter is missing';
+        response.isValid = false;
+    }
+
+    returnValidationConfirmation();
+    return response;
+}
+
 export {
     validateRegisterUserPayload,
     validateUserVerificationPayload,
@@ -204,5 +222,6 @@ export {
     validateUserDetailsPayload,
     validatePasswordUpdatePayload,
     validateDeactivateUserPayload,
-    validateProfileImagePayload
+    validateProfileImagePayload,
+    validateResetRequestPayload
 };

@@ -2,6 +2,7 @@
 
 import dbConnect from '../../db/index.js';
 import { logger, createNewLog } from 'lib-common-service';
+import { FRONTEND_URL } from '../../constants.js';
 
 const header = 'controller: update-user-password-controller';
 
@@ -43,7 +44,34 @@ const updateUserPassword = async(userId, payload) => {
             isValid: false
         };
     } catch (err) {
-        log.error('Error while working with db to logout user.');
+        log.error('Error while working with db to update user password.');
+        return {
+            resType: 'INTERNAL_SERVER_ERROR',
+            resMsg: err,
+            stack: err.stack,
+            isValid: false
+        };
+    }
+}
+
+const requestReset = async(user) => {
+    registerLog.createDebugLog('Start operation to send password reset request');
+
+    try {
+        log.info('Execution for sending password reset link started');
+
+        log.info('Call db query to generate forgot password token');
+        const updatedUserInfo = await dbConnect.generatePasswordCode(user._id);
+
+        log.info('Reset token generated successfully')
+        return {
+            resType: 'REQUEST_COMPLETED',
+            resMsg: 'RESET LINK SENT',
+            data: updatedUserInfo,
+            isValid: true
+        };
+    } catch (err) {
+        log.error('Error while working with db to send link to user for password reset.');
         return {
             resType: 'INTERNAL_SERVER_ERROR',
             resMsg: err,
@@ -68,7 +96,27 @@ const sendUpdatePasswordMailPayload = (userData) => {
     return mailPayload;
 }
 
+const sendPasswordLinkMailPayload = (userData) => {
+    log.info('Execution for creating payload for sending mail started');
+
+    const mailPayload = {
+        emailId: userData.emailId,
+        emailType: 'PASSWORD_RESET_MAIL',
+        context: {
+            fullName: userData.firstName + ' ' + userData.lastName,
+            custId: userData._id,
+            emailId: userData.emailId,
+            verificationCode: FRONTEND_URL + '/reset-password/' + userData._id + '/' + userData.forgotPasswordToken
+        }
+    };
+
+    log.info('Execution for creating mail payload completed');
+    return mailPayload;
+}
+
 export {
     updateUserPassword,
-    sendUpdatePasswordMailPayload
+    requestReset,
+    sendUpdatePasswordMailPayload,
+    sendPasswordLinkMailPayload
 };
