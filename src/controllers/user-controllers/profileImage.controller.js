@@ -16,7 +16,7 @@ const deleteImageFromCloudinary = async(userImageURL) => {
 }
 
 const updateProfileImage = async(user, userId, imagePath) => {
-    registerLog.createDebugLog('Start operation to upload user image on cloudinar');
+    registerLog.createDebugLog('Start operation to upload user image on cloudinary');
 
     try {
         log.info('Execution for uploading an image over cloudinary started');
@@ -52,6 +52,44 @@ const updateProfileImage = async(user, userId, imagePath) => {
     }
 }
 
+const deleteProfileImage = async(user, userId) => {
+    registerLog.createDebugLog('Start operation to delete user image on cloudinary');
+
+    try {
+        log.info('Execution for deleting an image over cloudinary started');
+        const userCurrentImageURL = user.data.profileImageURL;
+
+        if ((userCurrentImageURL) && (await deleteImageFromCloudinary(userCurrentImageURL))) {
+            log.info('Call db query to remove profile image url from database');
+            const updatedUserInfo = await dbConnect.deleteProfileImage(userId);
+
+            log.info('Execution for deleting an image from cloudinary completed');
+            return {
+                resType: 'REQUEST_COMPLETED',
+                resMsg: 'USER IMAGE DELETED SUCCESSFULLY',
+                data: updatedUserInfo,
+                isValid: true
+            };
+        }
+
+        log.error('Failed to delete an image from the cloudinary server');
+        return {
+            resType: 'BAD_REQUEST',
+            resMsg: 'Unable to delete image or image does not exists',
+            isValid: false
+        };
+    } catch (err) {
+        log.error('Error while working with db or cloudinary to delete user image.');
+        return {
+            resType: 'INTERNAL_SERVER_ERROR',
+            resMsg: err,
+            stack: err.stack,
+            isValid: false
+        };
+    }
+}
+
 export {
-    updateProfileImage
+    updateProfileImage,
+    deleteProfileImage
 };

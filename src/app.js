@@ -59,6 +59,7 @@ app.put(`${USERS_API}/update-profile/:userId`, registerUser, verifyToken(tokenKe
 app.put(`${USERS_API}/update-user-password/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.updateUserPassword);
 app.put(`${USERS_API}/deactivate-user/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.deactivateUser);
 app.put(`${USERS_API}/update-profile-image/:userId`, registerUser, verifyToken(tokenKey), upload.single('profileImage'), routes.userRoutes.updateProfileImage);
+app.delete(`${USERS_API}/delete-profile-image/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.deleteProfileImage);
 
 // Error Handler middleware
 app.use(errorHandler);
