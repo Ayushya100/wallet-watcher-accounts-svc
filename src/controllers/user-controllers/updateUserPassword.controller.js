@@ -97,7 +97,7 @@ const resetPassword = async(userId, payload) => {
             const isPasswordSame = await dbConnect.verifyPassword(userInfo, payload.password);
 
             if (!isPasswordSame) {
-                log.debug('Call db query to update the user password');
+                log.info('Call db query to update the user password');
                 const isPasswordUpdated = await dbConnect.resetUserPassword(userId, payload.password);
                 
                 log.info('Execution for updating user password completed');
