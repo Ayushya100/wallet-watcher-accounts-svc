@@ -29,7 +29,8 @@ import {
     getCompleteUserInfoById,
     userDeactivate,
     updateProfileImage,
-    deleteProfileImage
+    deleteProfileImage,
+    generatePasswordCode
 } from './users.db.js';
 
 export default {
@@ -59,5 +60,6 @@ export default {
     getCompleteUserInfoById,
     userDeactivate,
     updateProfileImage,
-    deleteProfileImage
+    deleteProfileImage,
+    generatePasswordCode
 };

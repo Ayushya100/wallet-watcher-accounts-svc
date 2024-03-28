@@ -321,6 +321,28 @@ const deleteProfileImage = async(userId) => {
     return updatedUserInfo;
 }
 
+const generatePasswordCode = async(userId) => {
+    const user = await UserModel.findById({ _id: userId });
+    const forgotPasswordToken = uuidv4() + user._id;
+    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+        { _id: user._id },
+        {
+            $set: {
+                forgotPasswordToken: forgotPasswordToken,
+                forgotPasswordTokenExpiry: Date.now() + (30 * 60 * 1000),
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        '-password -loginCount -isDeleted -createdBy -modifiedBy'
+    );
+    return updatedUserInfo;
+}
+
 export {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
@@ -339,5 +361,6 @@ export {
     getCompleteUserInfoById,
     userDeactivate,
     updateProfileImage,
-    deleteProfileImage
+    deleteProfileImage,
+    generatePasswordCode
 };

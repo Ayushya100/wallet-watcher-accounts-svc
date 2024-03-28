@@ -43,6 +43,42 @@ const checkUserById = async(userId) => {
     }
 }
 
+const checkUserByEmailOrUserName = async(userNameOrEmail) => {
+    registerLog.createDebugLog('Start checking if user is available');
+
+    try {
+        log.info('Execution for checking user with provided userName or emailId started');
+        const response = {
+            resType: 'NOT_FOUND',
+            resMsg: 'USER NOT FOUND',
+            data: null,
+            isValid: false
+        };
+
+        log.info('Call db query to check for the existing record');
+        const isUserAvailable = await dbConnect.isUserByUserNameOrEmailAvailable(userNameOrEmail, userNameOrEmail);
+
+        if (isUserAvailable) {
+            response.resType = 'SUCCESS';
+            response.resMsg = 'VALIDATION SUCCESSFUL';
+            response.data = isUserAvailable;
+            response.isValid = true;
+        }
+
+        log.info('Execution for checking existing record completed');
+        return response;
+    } catch (err) {
+        log.error('Error while working with db to check for existing user with provided userName or emailId.');
+        return {
+            resType: 'INTERNAL_SERVER_ERROR',
+            resMsg: err,
+            stack: err.stack,
+            isValid: false
+        };
+    }
+}
+
 export {
-    checkUserById
+    checkUserById,
+    checkUserByEmailOrUserName
 };
