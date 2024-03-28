@@ -60,6 +60,7 @@ const getPublicIdFromURL = (URL) => {
     const URLParts = URL.split('/');
     const publicIdWithExtension = URLParts.pop();
     const publicId = publicIdWithExtension.split('.')[0]; // Remove the file extension
+    log.info(`Public Id extracted successfully : ${publicId}`);
     return publicId;
 }
 

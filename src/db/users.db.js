@@ -295,11 +295,31 @@ const updateProfileImage = async(userId, cloudinaryImageURL) => {
             new: true
         }
     ).select(
-        '-password -isVerified -isDeleted -verificationCode -refreshToken -createdBy -modifiedBy'
+        '-password -isVerified -isDeleted -verificationCode -verificationCodeExpiry -refreshToken -createdBy -modifiedBy'
     );
     return updatedUserInfo;
 }
 
+const deleteProfileImage = async(userId) => {
+    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+        {
+            _id: userId
+        },
+        {
+            $set: {
+                profileImageURL: '',
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        '-password -isVerified -isDeleted -verificationCode -verificationCodeExpiry -refreshToken -createdBy -modifiedBy'
+    );
+    return updatedUserInfo;
+}
 
 export {
     isUserByUserNameOrEmailAvailable,
@@ -318,5 +338,6 @@ export {
     isPasswordValid,
     getCompleteUserInfoById,
     userDeactivate,
-    updateProfileImage
+    updateProfileImage,
+    deleteProfileImage
 };

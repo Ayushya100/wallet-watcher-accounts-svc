@@ -27,6 +27,7 @@ const updateProfileImage = async(req, res, next) => {
             const isUserAvailable = await userManagementController.checkUserById(userId);
 
             if (isUserAvailable.isValid) {
+                log.info('Call controller function to update profile image');
                 const isImageUploaded = await userManagementController.updateProfileImage(isUserAvailable, userId, profileImagePath);
 
                 if (isImageUploaded.isValid) {

@@ -28,7 +28,8 @@ import {
     isPasswordValid,
     getCompleteUserInfoById,
     userDeactivate,
-    updateProfileImage
+    updateProfileImage,
+    deleteProfileImage
 } from './users.db.js';
 
 export default {
@@ -57,5 +58,6 @@ export default {
     isPasswordValid,
     getCompleteUserInfoById,
     userDeactivate,
-    updateProfileImage
+    updateProfileImage,
+    deleteProfileImage
 };

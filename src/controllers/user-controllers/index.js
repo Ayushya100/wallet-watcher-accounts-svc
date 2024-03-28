@@ -32,7 +32,7 @@ import {
     deactivateUser,
     sendAccountDeactivateMailPayload
 } from './deactivateUser.controller.js';
-import { updateProfileImage } from './profileImage.controller.js';
+import { updateProfileImage, deleteProfileImage } from './profileImage.controller.js';
 
 export default {
     validateRegisterUserPayload,
@@ -63,5 +63,6 @@ export default {
     validateUserCredentials,
     deactivateUser,
     sendAccountDeactivateMailPayload,
-    updateProfileImage
+    updateProfileImage,
+    deleteProfileImage
 };
