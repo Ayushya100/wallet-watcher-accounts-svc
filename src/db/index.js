@@ -30,7 +30,8 @@ import {
     userDeactivate,
     updateProfileImage,
     deleteProfileImage,
-    generatePasswordCode
+    generatePasswordCode,
+    resetUserPassword
 } from './users.db.js';
 
 export default {
@@ -61,5 +62,6 @@ export default {
     userDeactivate,
     updateProfileImage,
     deleteProfileImage,
-    generatePasswordCode
+    generatePasswordCode,
+    resetUserPassword
 };

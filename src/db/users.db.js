@@ -1,6 +1,5 @@
 'use strict';
 
-import mongoose from 'mongoose';
 import {v4 as uuidv4} from 'uuid';
 import jwt from 'jsonwebtoken';
 
@@ -343,6 +342,23 @@ const generatePasswordCode = async(userId) => {
     return updatedUserInfo;
 }
 
+const resetUserPassword = async(userId, password) => {
+    const currentUserInfo = await UserModel.findOne({
+        _id: userId
+    });
+
+    currentUserInfo.password = password;
+    currentUserInfo.forgotPasswordToken = '';
+    currentUserInfo.modifiedOn = Date.now();
+    currentUserInfo.modifiedBy = userId;
+    await currentUserInfo.save({
+        validateBeforeSave: false
+    });
+
+    const updatedUserInfo = await isUserByIdAvailable(userId);
+    return updatedUserInfo;
+}
+
 export {
     isUserByUserNameOrEmailAvailable,
     createNewUser,
@@ -362,5 +378,6 @@ export {
     userDeactivate,
     updateProfileImage,
     deleteProfileImage,
-    generatePasswordCode
+    generatePasswordCode,
+    resetUserPassword
 };

@@ -61,6 +61,7 @@ app.put(`${USERS_API}/deactivate-user/:userId`, registerUser, verifyToken(tokenK
 app.put(`${USERS_API}/update-profile-image/:userId`, registerUser, verifyToken(tokenKey), upload.single('profileImage'), routes.userRoutes.updateProfileImage);
 app.delete(`${USERS_API}/delete-profile-image/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.deleteProfileImage);
 app.post(`${USERS_API}/request-reset`, registerUser, routes.userRoutes.requestPasswordReset);
+app.put(`${USERS_API}/reset-password/:userId`, registerUser, routes.userRoutes.resetPassword);
 
 // Error Handler middleware
 app.use(errorHandler);

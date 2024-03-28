@@ -8,7 +8,8 @@ import {
     validatePasswordUpdatePayload,
     validateDeactivateUserPayload,
     validateProfileImagePayload,
-    validateResetRequestPayload
+    validateResetRequestPayload,
+    validateResetPasswordPayload
 } from './validatePayload.controller.js';
 import {
     checkUserByUserNameOrEmail,
@@ -30,6 +31,7 @@ import { updateUserDetails, sendUpdateDetailsMailPayload } from './updateUserDet
 import {
     updateUserPassword,
     requestReset,
+    resetPassword,
     sendUpdatePasswordMailPayload,
     sendPasswordLinkMailPayload
 } from './updateUserPassword.controller.js';
@@ -49,6 +51,7 @@ export default {
     validateDeactivateUserPayload,
     validateProfileImagePayload,
     validateResetRequestPayload,
+    validateResetPasswordPayload,
     checkUserByUserNameOrEmail,
     createNewUser,
     sendVerificationMailPayload,
@@ -74,5 +77,6 @@ export default {
     deleteProfileImage,
     checkUserByEmailOrUserName,
     requestReset,
+    resetPassword,
     sendPasswordLinkMailPayload
 };

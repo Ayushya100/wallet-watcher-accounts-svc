@@ -13,39 +13,40 @@ const registerLog = createNewLog(header);
 const userManagementController = controller.userManagementController;
 
 // API Function
-const requestPasswordReset = async(req, res, next) => {
+const resetPassword = async(req, res, next) => {
     log.info(msg);
     registerLog.createInfoLog(msg);
 
     try {
+        const userId = req.params.userId;
         const payload = req.body;
 
         log.info('Call payload validator');
-        const isValidPayload = userManagementController.validateResetRequestPayload(payload.userNameOrEmail);
+        const isValidPayload = userManagementController.validateResetPasswordPayload(payload);
 
-        if(isValidPayload.isValid) {
+        if (isValidPayload.isValid) {
             log.info('Call controller function to check if user exists');
-            const isUserAvailable = await userManagementController.checkUserByEmailOrUserName(payload.userNameOrEmail);
+            const isUserAvailable = await userManagementController.checkUserById(userId);
 
             if (isUserAvailable.isValid) {
-                log.info('Call controller function to generate password token to send to user');
-                const isRequestComplete = await userManagementController.requestReset(isUserAvailable.data);
+                log.info('Call controller function to update password');
+                const isPasswordUpdated = await userManagementController.resetPassword(userId, payload);
 
-                if (isRequestComplete.isValid) {
-                    registerLog.createInfoLog('Password token generated successfully', isRequestComplete);
+                if (isPasswordUpdated.isValid) {
+                    registerLog.createInfoLog('Password tupdated successfully', isPasswordUpdated);
 
-                    const mailPayload = userManagementController.sendPasswordLinkMailPayload(isRequestComplete.data);
+                    const mailPayload = userManagementController.sendUpdatePasswordMailPayload(isPasswordUpdated.data);
 
                     log.info('Call email service for sending password reset mail');
                     const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
                     log.info('Email API execution completed');
 
-                    res.status(responseCodes[isRequestComplete.resType]).json(
-                        buildApiResponse(isRequestComplete)
+                    res.status(responseCodes[isPasswordUpdated.resType]).json(
+                        buildApiResponse(isPasswordUpdated)
                     );
                 } else {
-                    log.error('Error while generating token to reset password for the user');
-                    return next(isRequestComplete);
+                    log.error('Error while updating the password for the user');
+                    return next(isPasswordUpdated);
                 }
             } else {
                 log.error('Error while checking for existing record');
@@ -55,7 +56,7 @@ const requestPasswordReset = async(req, res, next) => {
             log.error('Error while validating the payload');
             return next(isValidPayload);
         }
-    } catch (err) {
+    } catch(err) {
         log.error('Internal Error occurred while working with router functions');
         next({
             resType: 'INTERNAL_SERVER_ERROR',
@@ -66,4 +67,4 @@ const requestPasswordReset = async(req, res, next) => {
     }
 }
 
-export default requestPasswordReset;
+export default resetPassword;

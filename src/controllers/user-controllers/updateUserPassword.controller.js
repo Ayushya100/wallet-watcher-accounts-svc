@@ -81,6 +81,58 @@ const requestReset = async(user) => {
     }
 }
 
+const resetPassword = async(userId, payload) => {
+    registerLog.createDebugLog('Start operation to update user password');
+
+    try {
+        log.info('Execution for updating user password started');
+        let currentTime = new Date(Date.now());
+
+        log.info('Call db query to get the existing record');
+        const userInfo = await dbConnect.getCompleteUserInfoById(userId);
+
+        log.info(`Start user verification - current time : ${currentTime}`);
+        if ((payload.verificationCode === userInfo.forgotPasswordToken) && (currentTime <= userInfo.forgotPasswordTokenExpiry)) {
+            log.info('Call db query to verify is the new password is same as old');
+            const isPasswordSame = await dbConnect.verifyPassword(userInfo, payload.password);
+
+            if (!isPasswordSame) {
+                log.debug('Call db query to update the user password');
+                const isPasswordUpdated = await dbConnect.resetUserPassword(userId, payload.password);
+                
+                log.info('Execution for updating user password completed');
+                return {
+                    resType: 'REQUEST_COMPLETED',
+                    resMsg: 'PASSWORD RESET SUCCESSFULL',
+                    data: isPasswordUpdated,
+                    isValid: true
+                };
+            }
+            log.error('New password is same as old - cannot be processed further');
+            return {
+                resType: 'BAD_REQUEST',
+                resMsg: 'NEW PASSWORD CANNOT BE SAME AS OLD',
+                isValid: false
+            };
+        }
+
+        log.error('Bad request, user verification failed');
+        return {
+            resType: 'BAD_REQUEST',
+            resMsg: 'USER VERIFICATION FAILED',
+            isValid: false
+        };
+    } catch (err) {
+        log.error('Error while working with db to update user password.');
+        return {
+            resType: 'INTERNAL_SERVER_ERROR',
+            resMsg: err,
+            stack: err.stack,
+            isValid: false
+        };
+    }
+}
+
 const sendUpdatePasswordMailPayload = (userData) => {
     log.info('Execution for creating payload for sending mail started');
 
@@ -117,6 +169,7 @@ const sendPasswordLinkMailPayload = (userData) => {
 export {
     updateUserPassword,
     requestReset,
+    resetPassword,
     sendUpdatePasswordMailPayload,
     sendPasswordLinkMailPayload
 };

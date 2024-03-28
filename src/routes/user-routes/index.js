@@ -12,6 +12,7 @@ import deactivateUser from './deactivateUser.route.js';
 import updateProfileImage from './updateProfileImage.route.js';
 import deleteProfileImage from './deleteProfileImage.route.js';
 import requestPasswordReset from './requestPasswordReset.route.js';
+import resetPassword from './resetPassword.route.js';
 
 export default {
     createUser,
@@ -25,5 +26,6 @@ export default {
     deactivateUser,
     updateProfileImage,
     deleteProfileImage,
-    requestPasswordReset
+    requestPasswordReset,
+    resetPassword
 };
