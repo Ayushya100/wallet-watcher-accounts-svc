@@ -27,7 +27,7 @@ const deassignSetting = async(req, res, next) => {
             const isSettingDeassigned = await dashboardController.deassignSettingFromUser(settingId, usersId);
 
             if (isSettingDeassigned.isValid) {
-                registerLog.createInfoLog('Setting deassigned for users successfully', isSettingDeassigned);
+                registerLog.createInfoLog('Setting deassigned for users successfully', null, isSettingDeassigned);
                 res.status(responseCodes[isSettingDeassigned.resType]).json(
                     buildApiResponse(isSettingDeassigned)
                 );

@@ -33,7 +33,7 @@ const verifyUser = async(req, res, next) => {
                 const isUserValidated = await userManagementController.verifyUser({userId, verificationCode});
                 
                 if (isUserValidated.isValid) {
-                    registerLog.createInfoLog('New user registered successfully', isUserValidated);
+                    registerLog.createInfoLog('New user registered successfully', null, isUserValidated);
                     
                     const mailPayload = userManagementController.sendVerificationSuccessfulMailPayload(isUserValidated.data);
 

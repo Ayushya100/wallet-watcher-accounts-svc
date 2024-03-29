@@ -26,7 +26,7 @@ const deleteProfileImage = async(req, res, next) => {
             const isImageDeleted = await userManagementController.deleteProfileImage(isUserAvailable, userId);
 
             if (isImageDeleted.isValid) {
-                registerLog.createInfoLog('User image deleted successfully', isImageDeleted);
+                registerLog.createInfoLog('User image deleted successfully', null, isImageDeleted);
                 res.status(responseCodes[isImageDeleted.resType]).json(
                     buildApiResponse(isImageDeleted)
                 );

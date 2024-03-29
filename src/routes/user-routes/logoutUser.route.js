@@ -27,6 +27,7 @@ const logoutUser = async(req, res, next) => {
             const isUserLoggedout = await userManagementController.logoutUser(userId);
 
             if (isUserLoggedout.isValid) {
+                registerLog.createInfoLog('User Logged-out successfully', null, isUserLoggedout);
                 res.status(responseCodes[isUserLoggedout.resType])
                 .clearCookie('accessToken', COOKIE_OPTIONS)
                 .clearCookie('refreshToken', COOKIE_OPTIONS)

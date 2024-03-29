@@ -30,7 +30,7 @@ const createSetting = async(req, res, next) => {
                 const isNewSettingCreated = await dashboardController.createSetting(payload);
 
                 if (isNewSettingCreated.isValid) {
-                    registerLog.createInfoLog('New setting created successfully', isNewSettingCreated);
+                    registerLog.createInfoLog('New setting created successfully', null, isNewSettingCreated);
                     res.status(responseCodes[isNewSettingCreated.resType]).json(
                         buildApiResponse(isNewSettingCreated)
                     );

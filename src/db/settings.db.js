@@ -1,17 +1,16 @@
 'use strict';
 
 // Add DB Models
-import { DashboardSettingsModel, UserDashboardModel } from 'lib-common-service';
+import { DashboardSettingsModel, UserDashboardModel, executeQuery } from 'lib-common-service';
 
 const isSettingByNameAvailable = async(payload) => {
-    const settingDetails = await DashboardSettingsModel.findOne({
+    const settingDetails = DashboardSettingsModel.findOne({
         categoryName: payload.categoryName,
         categoryType: payload.categoryType,
         subCategory: payload.subCategory,
         duration: payload.duration
     });
-
-    return settingDetails;
+    return await executeQuery(settingDetails);
 }
 
 const registerNewSetting = async(payload) => {
@@ -27,23 +26,22 @@ const registerNewSetting = async(payload) => {
 }
 
 const getAllSettings = async() => {
-    const settingDetails = await DashboardSettingsModel.find({
+    const settingDetails = DashboardSettingsModel.find({
         isDeleted: false
     }).select(
         'categoryName categoryDescription categoryType subCategory type isPeriodic duration'
     );
-
-    return settingDetails;
+    return await executeQuery(settingDetails);
 }
 
 const isSettingByIdAvailable = async(settingId) => {
-    const settingDetails = await DashboardSettingsModel.findById({
+    const settingDetails = DashboardSettingsModel.findById({
         _id: settingId,
         isDeleted: false
     }).select(
         'categoryName categoryDescription categoryType subCategory type isPeriodic duration'
     );
-    return settingDetails;
+    return await executeQuery(settingDetails);
 }
 
 const createUserDashboardSettings = async(userSettings) => {
@@ -52,7 +50,7 @@ const createUserDashboardSettings = async(userSettings) => {
 }
 
 const updateSettingDetails = async(settingId, payload) => {
-    const updatedDetails = await DashboardSettingsModel.findByIdAndUpdate(
+    const updatedDetails = DashboardSettingsModel.findByIdAndUpdate(
         {
             _id: settingId
         },
@@ -65,30 +63,30 @@ const updateSettingDetails = async(settingId, payload) => {
     ).select(
         'categoryName categoryDescription categoryType type isPeriodic duration'
     );
-    return updatedDetails;
+    return await executeQuery(updatedDetails);
 }
 
 const getUsersWithAssignedSetting = async(userIds, settingId) => {
-    const usersAlreadyAssigned = await UserDashboardModel.find({
+    const usersAlreadyAssigned = UserDashboardModel.find({
         userId: {
             $in: userIds
         },
         settingId: settingId,
         isDeleted: false
     }).select('userId');
-    return usersAlreadyAssigned;
+    return await executeQuery(usersAlreadyAssigned);
 }
 
 const getAllUsersWithAssignedSetting = async(settingId) => {
-    const usersAssignedDetails = await UserDashboardModel.find({
+    const usersAssignedDetails = UserDashboardModel.find({
         settingId: settingId,
         isDeleted: false
     }).select('userId');
-    return usersAssignedDetails;
+    return await executeQuery(usersAssignedDetails);
 }
 
 const deassignUserSettings = async(ids) => {
-    const updatedSettingDetails = await UserDashboardModel.updateMany(
+    const updatedSettingDetails = UserDashboardModel.updateMany(
         {
             _id: {
                 $in: ids
@@ -108,7 +106,7 @@ const deassignUserSettings = async(ids) => {
     ).select(
         'settingId type value isDeleted'
     );
-    return updatedSettingDetails;
+    return await executeQuery(updatedSettingDetails);
 }
 
 export {

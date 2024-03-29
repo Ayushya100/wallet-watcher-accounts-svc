@@ -27,6 +27,7 @@ const refreshAccessToken = async(req, res, next) => {
             const refreshedTokens = await userManagementController.refreshTokens(isTokenActive.data._id);
 
             if (refreshedTokens.isValid) {
+                registerLog.createInfoLog('User token refreshed successfully', null, refreshedTokens);
                 res.status(responseCodes[refreshedTokens.resType])
                 .cookie('accessToken', refreshedTokens.data.accessToken, COOKIE_OPTIONS)
                 .cookie('refreshToken', refreshedTokens.data.refreshToken, COOKIE_OPTIONS)

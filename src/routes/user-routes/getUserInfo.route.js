@@ -22,6 +22,7 @@ const getUserInfo = async(req, res, next) => {
         const getUserInfo = await userManagementController.checkUserById(userId);
 
         if (getUserInfo.isValid) {
+            registerLog.createInfoLog('User info returned successfully', null, getUserInfo);
             res.status(responseCodes[getUserInfo.resType]).json(
                 buildApiResponse(getUserInfo)
             );

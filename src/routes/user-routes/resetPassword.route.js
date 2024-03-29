@@ -15,7 +15,7 @@ const userManagementController = controller.userManagementController;
 // API Function
 const resetPassword = async(req, res, next) => {
     log.info(msg);
-    registerLog.createInfoLog(msg);
+    registerLog.createInfoLog(msg, ['password']);
 
     try {
         const userId = req.params.userId;
@@ -33,7 +33,7 @@ const resetPassword = async(req, res, next) => {
                 const isPasswordUpdated = await userManagementController.resetPassword(userId, payload);
 
                 if (isPasswordUpdated.isValid) {
-                    registerLog.createInfoLog('Password tupdated successfully', isPasswordUpdated);
+                    registerLog.createInfoLog('Password tupdated successfully', null, isPasswordUpdated);
 
                     const mailPayload = userManagementController.sendUpdatePasswordMailPayload(isPasswordUpdated.data);
 
