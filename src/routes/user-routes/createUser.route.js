@@ -15,7 +15,7 @@ const userManagementController = controller.userManagementController;
 // API Function
 const createUser = async(req, res, next) => {
     log.info(msg);
-    registerLog.createInfoLog(msg);
+    registerLog.createInfoLog(msg, ['password']);
 
     try {
         const payload = req.body;
@@ -32,7 +32,7 @@ const createUser = async(req, res, next) => {
                 const isUserCreated = await userManagementController.createNewUser(payload);
 
                 if (isUserCreated.isValid) {
-                    registerLog.createInfoLog('New user registered successfully', isUserCreated);
+                    registerLog.createInfoLog('New user registered successfully', null, isUserCreated);
 
                     const mailPayload = userManagementController.sendVerificationMailPayload(isUserCreated.data);
 

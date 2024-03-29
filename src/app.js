@@ -38,30 +38,32 @@ app.use(express.static('public'));
 
 app.use(cookieParser());
 
+app.use(registerUser);
+
 const tokenKey = process.env.ACCESS_TOKEN_KEY;
 
 // Dashboard Setting Routes
-app.post(`${USERS_API}/create-setting`, registerUser, routes.settingRoutes.createSetting);
-app.get(`${USERS_API}/get-setting-info`, registerUser, routes.settingRoutes.getSettingInfo);
-app.get(`${USERS_API}/get-setting-info/:id`, registerUser, routes.settingRoutes.getSettingInfo);
-app.put(`${USERS_API}/update-settings/:id`, registerUser, routes.settingRoutes.updateSetting);
-app.post(`${USERS_API}/assign-settings/:id`, registerUser, routes.settingRoutes.assignSettingsToUser);
-app.put(`${USERS_API}/deassign-settings/:id`, registerUser, routes.settingRoutes.deassignSetting);
+app.post(`${USERS_API}/create-setting`, routes.settingRoutes.createSetting);
+app.get(`${USERS_API}/get-setting-info`, routes.settingRoutes.getSettingInfo);
+app.get(`${USERS_API}/get-setting-info/:id`, routes.settingRoutes.getSettingInfo);
+app.put(`${USERS_API}/update-settings/:id`, routes.settingRoutes.updateSetting);
+app.post(`${USERS_API}/assign-settings/:id`, routes.settingRoutes.assignSettingsToUser);
+app.put(`${USERS_API}/deassign-settings/:id`, routes.settingRoutes.deassignSetting);
 
 // User Account Routes
-app.post(`${USERS_API}/create-user`, registerUser, routes.userRoutes.createUser);
-app.put(`${USERS_API}/:userId/verify-user`, registerUser, routes.userRoutes.verifyUser);
-app.post(`${USERS_API}/user-login`, registerUser, routes.userRoutes.loginUser);
-app.get(`${USERS_API}/get-user-info/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.getUserInfo);
-app.post(`${USERS_API}/refresh-token`, registerUser, routes.userRoutes.refreshAccessToken);
-app.post(`${USERS_API}/logout-user`, registerUser, verifyToken(tokenKey), routes.userRoutes.logoutUser);
-app.put(`${USERS_API}/update-profile/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.updateUserDetails);
-app.put(`${USERS_API}/update-user-password/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.updateUserPassword);
-app.put(`${USERS_API}/deactivate-user/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.deactivateUser);
-app.put(`${USERS_API}/update-profile-image/:userId`, registerUser, verifyToken(tokenKey), upload.single('profileImage'), routes.userRoutes.updateProfileImage);
-app.delete(`${USERS_API}/delete-profile-image/:userId`, registerUser, verifyToken(tokenKey), routes.userRoutes.deleteProfileImage);
-app.post(`${USERS_API}/request-reset`, registerUser, routes.userRoutes.requestPasswordReset);
-app.put(`${USERS_API}/reset-password/:userId`, registerUser, routes.userRoutes.resetPassword);
+app.post(`${USERS_API}/create-user`, routes.userRoutes.createUser);
+app.put(`${USERS_API}/:userId/verify-user`, routes.userRoutes.verifyUser);
+app.post(`${USERS_API}/user-login`, routes.userRoutes.loginUser);
+app.get(`${USERS_API}/get-user-info/:userId`, verifyToken(tokenKey), routes.userRoutes.getUserInfo);
+app.post(`${USERS_API}/refresh-token`, routes.userRoutes.refreshAccessToken);
+app.post(`${USERS_API}/logout-user`, verifyToken(tokenKey), routes.userRoutes.logoutUser);
+app.put(`${USERS_API}/update-profile/:userId`, verifyToken(tokenKey), routes.userRoutes.updateUserDetails);
+app.put(`${USERS_API}/update-user-password/:userId`, verifyToken(tokenKey), routes.userRoutes.updateUserPassword);
+app.put(`${USERS_API}/deactivate-user/:userId`, verifyToken(tokenKey), routes.userRoutes.deactivateUser);
+app.put(`${USERS_API}/update-profile-image/:userId`, verifyToken(tokenKey), upload.single('profileImage'), routes.userRoutes.updateProfileImage);
+app.delete(`${USERS_API}/delete-profile-image/:userId`, verifyToken(tokenKey), routes.userRoutes.deleteProfileImage);
+app.post(`${USERS_API}/request-reset`, routes.userRoutes.requestPasswordReset);
+app.put(`${USERS_API}/reset-password/:userId`, routes.userRoutes.resetPassword);
 
 // Error Handler middleware
 app.use(errorHandler);

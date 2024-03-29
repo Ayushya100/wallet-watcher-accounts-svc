@@ -15,7 +15,7 @@ const userManagementController = controller.userManagementController;
 // API Function
 const loginUser = async(req, res, next) => {
     log.info(msg);
-    registerLog.createInfoLog(msg);
+    registerLog.createInfoLog(msg, ['password']);
 
     try {
         const payload = req.body;
@@ -46,6 +46,7 @@ const loginUser = async(req, res, next) => {
                     log.info('Call controller function to login the user and setup the tokens');
                     const loggedInUser = await userManagementController.generateAccessAndRefreshTokens(isUserValid.data._id);
                     
+                    registerLog.createInfoLog('User Logged-In successfully', null, loggedInUser);
                     res.status(responseCodes[loggedInUser.resType])
                     .cookie('accessToken', loggedInUser.data.accessToken, COOKIE_OPTIONS)
                     .cookie('refreshToken', loggedInUser.data.refreshToken, COOKIE_OPTIONS)

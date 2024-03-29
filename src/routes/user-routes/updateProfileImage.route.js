@@ -31,7 +31,7 @@ const updateProfileImage = async(req, res, next) => {
                 const isImageUploaded = await userManagementController.updateProfileImage(isUserAvailable, userId, profileImagePath);
 
                 if (isImageUploaded.isValid) {
-                    registerLog.createInfoLog('User image updated successfully', isImageUploaded);
+                    registerLog.createInfoLog('User image updated successfully', null, isImageUploaded);
                     res.status(responseCodes[isImageUploaded.resType]).json(
                         buildApiResponse(isImageUploaded)
                     );

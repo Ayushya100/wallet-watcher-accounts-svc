@@ -4,54 +4,54 @@ import {v4 as uuidv4} from 'uuid';
 import jwt from 'jsonwebtoken';
 
 // Add DB Models
-import { UserModel, UserFinanceModel } from 'lib-common-service';
+import { UserModel, UserFinanceModel, executeQuery } from 'lib-common-service';
 
 const isUserByUserNameOrEmailAvailable = async(userName, emailId) => {
-    const isUserExist = await UserModel.findOne({
+    const isUserExist = UserModel.findOne({
         $or: [{ userName }, { emailId }]
     });
-
-    return isUserExist;
+    return await executeQuery(isUserExist);
 }
 
 const isUserByIdAvailable = async(userId) => {
-    const isUserExist = await UserModel.findById({
+    const isUserExist = UserModel.findById({
         _id: userId
     }).select(
         '-password -isDeleted -createdBy -modifiedBy'
     );
-    return isUserExist;
+    return await executeQuery(isUserExist);
 }
 
 const getSelectedUsersId = async(userIds) => {
-    const selectedUsersId = await UserModel.find({
+    const selectedUsersId = UserModel.find({
         _id: {
             $in: userIds
         },
         isDeleted: false
     }).select('_id');
-
-    return selectedUsersId;
+    return await executeQuery(selectedUsersId);
 }
 
 const getAllUsersId = async() => {
-    const allUsersId = await UserModel.find({
+    const allUsersId = UserModel.find({
         isDeleted: false
     }).select('_id');
-    return allUsersId;
+    return await executeQuery(allUsersId);
 }
 
 const getCompleteUserInfoById = async(userId) => {
-    const userInfo = await UserModel.findById({
+    const userInfo = UserModel.findById({
         _id: userId
     });
-    return userInfo;
+    return await executeQuery(userInfo);
 }
 
 const generateVerificationCode = async(userId) => {
-    const user = await UserModel.findById({ _id: userId });
+    const userQuery = UserModel.findById({ _id: userId });
+    const user = await executeQuery(userQuery);
+
     const verificationCode = uuidv4() + user._id;
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfo = UserModel.findByIdAndUpdate(
         { _id: user._id },
         {
             $set: {
@@ -67,7 +67,7 @@ const generateVerificationCode = async(userId) => {
     ).select(
         '-password -loginCount -isDeleted -createdBy -modifiedBy'
     );
-    return updatedUserInfo;
+    return await executeQuery(updatedUserInfo);
 }
 
 const createNewUser = async(payload) => {
@@ -86,7 +86,7 @@ const createNewUser = async(payload) => {
 }
 
 const validateUser = async(userId) => {
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfo = UserModel.findByIdAndUpdate(
         { _id: userId },
         {
             $set: {
@@ -103,7 +103,7 @@ const validateUser = async(userId) => {
         '-password -loginCount -isDeleted -createdBy -modifiedBy'
     );
 
-    return updatedUserInfo;
+    return await executeQuery(updatedUserInfo);
 }
 
 const verifyPassword = async(user, password) => {
@@ -112,7 +112,7 @@ const verifyPassword = async(user, password) => {
 }
 
 const reactivateUser = async(userId) => {
-    const updatedUser = await UserModel.findByIdAndUpdate(
+    const updatedUser = UserModel.findByIdAndUpdate(
         { _id: userId },
         {
             $set: {
@@ -128,11 +128,12 @@ const reactivateUser = async(userId) => {
         '-password -loginCount -isDeleted -createdBy -modifiedBy'
     );
 
-    return updatedUser;
+    return await executeQuery(updatedUser);
 }
 
 const generateAccessAndRefreshTokens = async(userId) => {
-    const user = await UserModel.findById({ _id: userId });
+    const userQuery = UserModel.findById({ _id: userId });
+    const user = await executeQuery(userQuery);
 
     const accessToken = jwt.sign(
         {
@@ -157,7 +158,7 @@ const generateAccessAndRefreshTokens = async(userId) => {
         }
     );
 
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfoQuery = UserModel.findByIdAndUpdate(
         { _id: user._id },
         {
             $set: {
@@ -174,6 +175,7 @@ const generateAccessAndRefreshTokens = async(userId) => {
     ).select(
         '-password -createdOn -createdBy -modifiedOn -modifiedBy'
     );
+    const updatedUserInfo = await executeQuery(updatedUserInfoQuery);
 
     return {
         accessToken,
@@ -184,7 +186,7 @@ const generateAccessAndRefreshTokens = async(userId) => {
 }
 
 const logoutUser = async(userId) => {
-    await UserModel.findByIdAndUpdate(
+    const logoutUserQuery = UserModel.findByIdAndUpdate(
         {
             _id: userId
         },
@@ -199,13 +201,14 @@ const logoutUser = async(userId) => {
             new: true
         }
     );
+    await executeQuery(logoutUserQuery);
     return true;
 }
 
 const updateUserInfo = async(userId, payload) => {
     const currentUserInfo = await isUserByIdAvailable(userId);
 
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfo = UserModel.findByIdAndUpdate(
         {
             _id: userId
         },
@@ -228,7 +231,7 @@ const updateUserInfo = async(userId, payload) => {
     ).select(
         '-password -refreshToken -isDeleted -createdBy -modifiedBy'
     );
-    return updatedUserInfo;
+    return await executeQuery(updatedUserInfo);
 }
 
 const isPasswordValid = async(user, password) => {
@@ -239,9 +242,10 @@ const isPasswordValid = async(user, password) => {
 }
 
 const updateUserPassword = async(userId, payload) => {
-    const currentUserInfo = await UserModel.findOne({
+    const currentUserInfoQuery = UserModel.findOne({
         _id: userId
     });
+    const currentUserInfo = await executeQuery(currentUserInfoQuery);
 
     if (await isPasswordValid(currentUserInfo, payload.oldPassword)) {
         currentUserInfo.password = payload.newPassword;
@@ -258,7 +262,7 @@ const updateUserPassword = async(userId, payload) => {
 }
 
 const userDeactivate = async(userId) => {
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfo = UserModel.findByIdAndUpdate(
         {
             _id: userId
         },
@@ -275,11 +279,11 @@ const userDeactivate = async(userId) => {
     ).select(
         '-password -createdBy -modifiedBy'
     );
-    return updatedUserInfo;
+    return await executeQuery(updatedUserInfo);
 }
 
 const updateProfileImage = async(userId, cloudinaryImageURL) => {
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfo = UserModel.findByIdAndUpdate(
         {
             _id: userId
         },
@@ -296,11 +300,11 @@ const updateProfileImage = async(userId, cloudinaryImageURL) => {
     ).select(
         '-password -isVerified -isDeleted -verificationCode -verificationCodeExpiry -refreshToken -createdBy -modifiedBy'
     );
-    return updatedUserInfo;
+    return await executeQuery(updatedUserInfo);
 }
 
 const deleteProfileImage = async(userId) => {
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfo = UserModel.findByIdAndUpdate(
         {
             _id: userId
         },
@@ -317,13 +321,15 @@ const deleteProfileImage = async(userId) => {
     ).select(
         '-password -isVerified -isDeleted -verificationCode -verificationCodeExpiry -refreshToken -createdBy -modifiedBy'
     );
-    return updatedUserInfo;
+    return await executeQuery(updatedUserInfo);
 }
 
 const generatePasswordCode = async(userId) => {
-    const user = await UserModel.findById({ _id: userId });
+    const userQuery = UserModel.findById({ _id: userId });
+    const user = await executeQuery(userQuery);
+
     const forgotPasswordToken = uuidv4() + user._id;
-    const updatedUserInfo = await UserModel.findByIdAndUpdate(
+    const updatedUserInfo = UserModel.findByIdAndUpdate(
         { _id: user._id },
         {
             $set: {
@@ -339,13 +345,14 @@ const generatePasswordCode = async(userId) => {
     ).select(
         '-password -loginCount -isDeleted -createdBy -modifiedBy'
     );
-    return updatedUserInfo;
+    return await executeQuery(updatedUserInfo);
 }
 
 const resetUserPassword = async(userId, password) => {
-    const currentUserInfo = await UserModel.findOne({
+    const currentUserInfoQuery = UserModel.findOne({
         _id: userId
     });
+    const currentUserInfo = await executeQuery(currentUserInfoQuery);
 
     currentUserInfo.password = password;
     currentUserInfo.forgotPasswordToken = '';

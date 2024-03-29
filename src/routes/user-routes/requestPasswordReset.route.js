@@ -32,7 +32,7 @@ const requestPasswordReset = async(req, res, next) => {
                 const isRequestComplete = await userManagementController.requestReset(isUserAvailable.data);
 
                 if (isRequestComplete.isValid) {
-                    registerLog.createInfoLog('Password token generated successfully', isRequestComplete);
+                    registerLog.createInfoLog('Password token generated successfully', null, isRequestComplete);
 
                     const mailPayload = userManagementController.sendPasswordLinkMailPayload(isRequestComplete.data);
 

@@ -23,7 +23,7 @@ const getSettingInfo = async(req, res, next) => {
             const isAllSettingsFound = await dashboardController.getAllSettings();
 
             if (isAllSettingsFound.isValid) {
-                registerLog.createInfoLog('Successfully returned all settings information', isAllSettingsFound);
+                registerLog.createInfoLog('Successfully returned all settings information', null, isAllSettingsFound);
                 res.status(responseCodes[isAllSettingsFound.resType]).json(
                     buildApiResponse(isAllSettingsFound)
                 );
@@ -36,7 +36,7 @@ const getSettingInfo = async(req, res, next) => {
             const isSettingInfoFound = await dashboardController.getSettingInfoById(settingId);
 
             if (isSettingInfoFound.isValid) {
-                registerLog.createInfoLog('Successfully returned the requested setting information', isSettingInfoFound);
+                registerLog.createInfoLog('Successfully returned the requested setting information', null, isSettingInfoFound);
                 res.status(responseCodes[isSettingInfoFound.resType]).json(
                     buildApiResponse(isSettingInfoFound)
                 );

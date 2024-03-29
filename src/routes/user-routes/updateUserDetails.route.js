@@ -33,7 +33,7 @@ const updateUserDetails = async(req, res, next) => {
                 const isUserInfoUpdated = await userManagementController.updateUserDetails(userId, payload);
 
                 if (isUserInfoUpdated.isValid) {
-                    registerLog.createInfoLog('User details updated successfully', isUserInfoUpdated);
+                    registerLog.createInfoLog('User details updated successfully', null, isUserInfoUpdated);
 
                     const mailPayload = userManagementController.sendUpdateDetailsMailPayload(isUserInfoUpdated.data);
 

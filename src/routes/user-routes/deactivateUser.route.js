@@ -15,7 +15,7 @@ const userManagementController = controller.userManagementController;
 // API Function
 const deactivateUser = async(req, res, next) => {
     log.info(msg);
-    registerLog.createInfoLog(msg);
+    registerLog.createInfoLog(msg, ['password']);
 
     try {
         const userId = req.params.userId;
@@ -37,7 +37,7 @@ const deactivateUser = async(req, res, next) => {
                     const isUserDeactivated = await userManagementController.deactivateUser(userId);
 
                     if (isUserDeactivated.isValid) {
-                        registerLog.createInfoLog('User deactivated successfully', isUserDeactivated);
+                        registerLog.createInfoLog('User deactivated successfully', null, isUserDeactivated);
 
                         const mailPayload = userManagementController.sendAccountDeactivateMailPayload(isUserDeactivated.data);
 
