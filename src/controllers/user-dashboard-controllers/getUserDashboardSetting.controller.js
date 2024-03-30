@@ -16,15 +16,7 @@ const getAllUserDashboardSetting = async(userId) => {
         log.info('Call db query to get the detail of setting by provided user id record');
         const userDashboardSettings = await dbConnect.getDashboardSettingByUserId(userId);
 
-        if (userDashboardSettings.length === 0) {
-            log.info('No user setting info available - execution completed');
-            return {
-                resType: 'CONTENT_NOT_AVAILABLE',
-                resMsg: 'No User Setting Available to Display',
-                data: [],
-                isValid: true
-            };
-        } else if (userDashboardSettings.length > 0) {
+        if (userDashboardSettings.length > 0) {
             log.info('Execution for getting setting info by user id completed successfully');
             return {
                 resType: 'SUCCESS',
@@ -59,15 +51,7 @@ const getUserDashboardSettingById = async(userId, userSettingId ) => {
         log.info('Call db query to get the detail of setting by provided setting id record');
         const userDashboardSetting = await dbConnect.isUserSettingBySettingIdAvailable(userId, userSettingId);
 
-        if (userDashboardSetting.length === 0) {
-            log.info('No user setting info available - execution completed');
-            return {
-                resType: 'CONTENT_NOT_AVAILABLE',
-                resMsg: 'No User Setting Available to Display',
-                data: [],
-                isValid: true
-            };
-        } else if (userDashboardSetting.length > 0) {
+        if (userDashboardSetting.length > 0) {
             log.info('Execution for getting setting info by setting id completed successfully');
             return {
                 resType: 'SUCCESS',
