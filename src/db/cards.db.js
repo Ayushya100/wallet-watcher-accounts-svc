@@ -28,7 +28,34 @@ const createNewCard = async(userId, payload) => {
     return newCard;
 }
 
+const getAllCardInfo = async(userId) => {
+    const cardInfo = CardInfoModel.find(
+        {
+            userId: userId,
+            isDeleted: false
+        }
+    ).select(
+        'token cardNumber cardType bankInfo expirationDate holderName cardColor isActive'
+    );
+    return await executeQuery(cardInfo);
+}
+
+const getCardInfoByToken = async(userId, cardToken) => {
+    const cardInfo = CardInfoModel.findOne(
+        {
+            token: cardToken,
+            userId: userId,
+            isDeleted: false
+        }
+    ).select(
+        'cardNumber cardType bankInfo expirationDate holderName cardColor isActive balance isDeleted'
+    );
+    return await executeQuery(cardInfo);
+}
+
 export {
     isCardByCardNumberAvailable,
-    createNewCard
+    createNewCard,
+    getAllCardInfo,
+    getCardInfoByToken
 };
