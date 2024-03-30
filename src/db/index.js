@@ -36,6 +36,10 @@ import {
     generatePasswordCode,
     resetUserPassword
 } from './users.db.js';
+import {
+    isCardByCardNumberAvailable,
+    createNewCard
+} from './cards.db.js';
 
 export default {
     isSettingByNameAvailable,
@@ -69,5 +73,7 @@ export default {
     updateProfileImage,
     deleteProfileImage,
     generatePasswordCode,
-    resetUserPassword
+    resetUserPassword,
+    isCardByCardNumberAvailable,
+    createNewCard
 };

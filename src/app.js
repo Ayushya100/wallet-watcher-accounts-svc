@@ -70,6 +70,9 @@ app.get(`${USERS_API}/:userId/get-dashboard-settings`, verifyToken(tokenKey), ro
 app.get(`${USERS_API}/:userId/get-dashboard-settings/:userSettingId`, verifyToken(tokenKey), routes.userDashboard.getUserDashboardSetting);
 app.put(`${USERS_API}/:userId/update-dashboard-setting/:userSettingId`, verifyToken(tokenKey), routes.userDashboard.updateUserDashboardSetting);
 
+// User Card Routes
+app.post(`${USERS_API}/:userId/register-card`, verifyToken(tokenKey), routes.cardRoutes.registerCard);
+
 // Error Handler middleware
 app.use(errorHandler);
 
