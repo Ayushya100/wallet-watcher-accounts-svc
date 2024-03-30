@@ -14,6 +14,7 @@ import {
     reactivateCard,
     sendCardReactivationMailPayload
 } from './reactivateCard.controller.js';
+import { deleteCard, sendCardDeletionMailPayload } from './deleteCard.controller.js';
 
 export default {
     validateRegisterCardPayload,
@@ -29,5 +30,7 @@ export default {
     sendCardDeactivationMailPayload,
     isCardValidToReactivate,
     reactivateCard,
-    sendCardReactivationMailPayload
+    sendCardReactivationMailPayload,
+    deleteCard,
+    sendCardDeletionMailPayload
 };
