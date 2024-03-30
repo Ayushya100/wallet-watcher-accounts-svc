@@ -22,7 +22,7 @@ const getAllSettings = async() => {
                 resType: 'CONTENT_NOT_AVAILABLE',
                 resMsg: 'No User Available to Assign Setting',
                 data: [],
-                isValid: false
+                isValid: true
             };
         }
 
@@ -67,7 +67,7 @@ const getSettingInfoById = async(settingId) => {
                 resType: 'CONTENT_NOT_AVAILABLE',
                 resMsg: 'No User Available to Assign Setting',
                 data: [],
-                isValid: false
+                isValid: true
             };
         }
 
