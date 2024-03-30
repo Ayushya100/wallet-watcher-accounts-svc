@@ -1,11 +1,10 @@
 'use strict';
 
-import { logger, createNewLog } from 'lib-common-service';
+import { logger } from 'lib-common-service';
 
 const header = 'util: formatting-card-details';
 
 const log = logger(header);
-const registerLog = createNewLog(header);
 
 import crypto from 'crypto';
 

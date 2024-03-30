@@ -6,7 +6,7 @@ import {
     maskCardNumber,
     generateToken,
     encryptData
-} from '../../utils/card.js';
+} from '../../utils/index.js';
 
 const header = 'controller: register-card-controller';
 
