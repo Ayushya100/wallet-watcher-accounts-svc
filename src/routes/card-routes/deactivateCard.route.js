@@ -39,6 +39,7 @@ const deactivateCard = async(req, res, next) => {
                     buildApiResponse(isCardDeactivated)
                 );
             } else {
+                log.error('Error occurred while setting card as inactive');
                 return next(isCardDeactivated);
             }
         } else {
