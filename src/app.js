@@ -72,6 +72,8 @@ app.put(`${USERS_API}/:userId/update-dashboard-setting/:userSettingId`, verifyTo
 
 // User Card Routes
 app.post(`${USERS_API}/:userId/register-card`, verifyToken(tokenKey), routes.cardRoutes.registerCard);
+app.get(`${USERS_API}/:userId/get-card-info`, verifyToken(tokenKey), routes.cardRoutes.getCardInfo);
+app.get(`${USERS_API}/:userId/get-card-info/:cardToken`, verifyToken(tokenKey), routes.cardRoutes.getCardInfo);
 
 // Error Handler middleware
 app.use(errorHandler);

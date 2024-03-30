@@ -6,10 +6,13 @@ import {
     registerNewCard,
     sendCardCreationMailPayload
 } from './registerCard.controller.js';
+import { getAllCardsInfo, getCardInfoByToken } from './getCardInfo.controller.js';
 
 export default {
     validateRegisterCardPayload,
     checkCardByCardNumber,
     registerNewCard,
-    sendCardCreationMailPayload
+    sendCardCreationMailPayload,
+    getAllCardsInfo,
+    getCardInfoByToken
 };

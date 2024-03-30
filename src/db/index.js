@@ -38,7 +38,9 @@ import {
 } from './users.db.js';
 import {
     isCardByCardNumberAvailable,
-    createNewCard
+    createNewCard,
+    getAllCardInfo,
+    getCardInfoByToken
 } from './cards.db.js';
 
 export default {
@@ -75,5 +77,7 @@ export default {
     generatePasswordCode,
     resetUserPassword,
     isCardByCardNumberAvailable,
-    createNewCard
+    createNewCard,
+    getAllCardInfo,
+    getCardInfoByToken
 };
