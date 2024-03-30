@@ -68,6 +68,7 @@ app.put(`${USERS_API}/reset-password/:userId`, routes.userRoutes.resetPassword);
 // User Dashboard Setting Routes
 app.get(`${USERS_API}/:userId/get-dashboard-settings`, verifyToken(tokenKey), routes.userDashboard.getUserDashboardSetting);
 app.get(`${USERS_API}/:userId/get-dashboard-settings/:userSettingId`, verifyToken(tokenKey), routes.userDashboard.getUserDashboardSetting);
+app.put(`${USERS_API}/:userId/update-dashboard-setting/:userSettingId`, verifyToken(tokenKey), routes.userDashboard.updateUserDashboardSetting);
 
 // Error Handler middleware
 app.use(errorHandler);

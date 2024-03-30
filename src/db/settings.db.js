@@ -235,6 +235,28 @@ const isUserSettingBySettingIdAvailable = async(userId, settingId) => {
     return await executeAggregation(isSettingAvailable);
 }
 
+const updateUserDashboardSetting = async(userId, userSettingId, payload) => {
+    const updatedDashboardSettings = await UserDashboardModel.findByIdAndUpdate(
+        {
+            _id: userSettingId,
+            userId: userId
+        },
+        {
+            $set: {
+                value: payload.value,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        '-createdOn -createdBy -modifiedOn -modifiedBy -isDeleted'
+    );
+    return updatedDashboardSettings;
+}
+
 export {
     isSettingByNameAvailable,
     registerNewSetting,
@@ -246,5 +268,6 @@ export {
     getAllUsersWithAssignedSetting,
     deassignUserSettings,
     getDashboardSettingByUserId,
-    isUserSettingBySettingIdAvailable
+    isUserSettingBySettingIdAvailable,
+    updateUserDashboardSetting
 };
