@@ -75,6 +75,7 @@ app.post(`${USERS_API}/:userId/register-card`, verifyToken(tokenKey), routes.car
 app.get(`${USERS_API}/:userId/get-card-info`, verifyToken(tokenKey), routes.cardRoutes.getCardInfo);
 app.get(`${USERS_API}/:userId/get-card-info/:cardToken`, verifyToken(tokenKey), routes.cardRoutes.getCardInfo);
 app.put(`${USERS_API}/:userId/update-card-info/:cardToken`, verifyToken(tokenKey), checkCardExist, routes.cardRoutes.updateCardInfo);
+app.put(`${USERS_API}/:userId/deactivate-card/:cardToken`, verifyToken(tokenKey), checkCardExist, routes.cardRoutes.deactivateCard);
 
 // Error Handler middleware
 app.use(errorHandler);
