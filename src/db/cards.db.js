@@ -53,9 +53,35 @@ const getCardInfoByToken = async(userId, cardToken) => {
     return await executeQuery(cardInfo);
 }
 
+const updateExistingCard = async(userId, cardToken, payload) => {
+    const existingCardInfo = await getCardInfoByToken(userId, cardToken);
+    const updatedCardInfo = CardInfoModel.findOneAndUpdate(
+        {
+            token: cardToken,
+            userId: userId,
+            isDeleted: false
+        },
+        {
+            $set: {
+                holderName: payload.holderName || existingCardInfo.holderName,
+                cardColor: payload.cardColor || existingCardInfo.cardColor,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        'cardNumber cardType bankInfo expirationDate holderName cardColor isActive'
+    );
+    return await executeQuery(updatedCardInfo);
+}
+
 export {
     isCardByCardNumberAvailable,
     createNewCard,
     getAllCardInfo,
-    getCardInfoByToken
+    getCardInfoByToken,
+    updateExistingCard
 };

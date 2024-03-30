@@ -40,7 +40,8 @@ import {
     isCardByCardNumberAvailable,
     createNewCard,
     getAllCardInfo,
-    getCardInfoByToken
+    getCardInfoByToken,
+    updateExistingCard
 } from './cards.db.js';
 
 export default {
@@ -79,5 +80,6 @@ export default {
     isCardByCardNumberAvailable,
     createNewCard,
     getAllCardInfo,
-    getCardInfoByToken
+    getCardInfoByToken,
+    updateExistingCard
 };

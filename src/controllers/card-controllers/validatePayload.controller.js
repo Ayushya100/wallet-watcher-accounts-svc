@@ -57,6 +57,24 @@ const validateRegisterCardPayload = (payload) => {
     return response;
 }
 
+// Mandatory parameters check for updating card info
+const validateUpdateCardPayload = (payload) => {
+    let response = {
+        resType: 'SUCCESS',
+        resMsg: 'VALIDATION SUCCESSFULL',
+        isValid: true
+    };
+
+    if (!payload.holderName) {
+        response.resType = 'BAD_REQUEST';
+        response.resMsg = `Holder name cannot be empty`;
+        response.isValid = false;
+    }
+    returnValidationConfirmation();
+    return response;
+}
+
 export {
-    validateRegisterCardPayload
+    validateRegisterCardPayload,
+    validateUpdateCardPayload
 }
