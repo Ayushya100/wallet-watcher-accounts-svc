@@ -42,7 +42,8 @@ import {
     getAllCardInfo,
     getCardInfoByToken,
     updateExistingCard,
-    deactivateCard
+    deactivateCard,
+    reactivateCard
 } from './cards.db.js';
 
 export default {
@@ -83,5 +84,6 @@ export default {
     getAllCardInfo,
     getCardInfoByToken,
     updateExistingCard,
-    deactivateCard
+    deactivateCard,
+    reactivateCard
 };
