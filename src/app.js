@@ -79,6 +79,9 @@ app.put(`${USERS_API}/:userId/deactivate-card/:cardToken`, verifyToken(tokenKey)
 app.put(`${USERS_API}/:userId/reactivate-card/:cardToken`, verifyToken(tokenKey), checkCardExist, routes.cardRoutes.reactivateCard);
 app.delete(`${USERS_API}/:userId/delete-card/:cardToken`, verifyToken(tokenKey), checkCardExist, routes.cardRoutes.deleteCard);
 
+// User Investment Account Routes
+app.post(`${USERS_API}/:userId/create-account`, verifyToken(tokenKey), routes.accountRoutes.createAccount);
+
 // Error Handler middleware
 app.use(errorHandler);
 

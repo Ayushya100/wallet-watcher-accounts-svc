@@ -2,7 +2,7 @@
 
 import dbConnect from '../../db/index.js';
 import { logger, createNewLog } from 'lib-common-service';
-import { decryptData, convertFullDateToString } from '../../utils/card.js';
+import { decryptData, convertFullDateToString } from '../../utils/index.js';
 
 const header = 'controller: reactivate-card-controller';
 

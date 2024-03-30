@@ -9,6 +9,12 @@ import {
     convertDateToString,
     convertFullDateToString
 } from './card.js';
+import {
+    maskAccountNumber,
+    generateAccountToken,
+    encryptAccountData,
+    decryptAccountData
+} from './account.js';
 
 export {
     uploadOnCloudinary,
@@ -18,5 +24,9 @@ export {
     encryptData,
     decryptData,
     convertDateToString,
-    convertFullDateToString
+    convertFullDateToString,
+    maskAccountNumber,
+    generateAccountToken,
+    encryptAccountData,
+    decryptAccountData
 };

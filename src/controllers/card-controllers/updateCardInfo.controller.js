@@ -2,7 +2,7 @@
 
 import dbConnect from '../../db/index.js';
 import { logger, createNewLog } from 'lib-common-service';
-import { encryptData, decryptData, convertDateToString } from '../../utils/card.js';
+import { encryptData, decryptData, convertDateToString } from '../../utils/index.js';
 
 const header = 'controller: update-card-info-controller';
 

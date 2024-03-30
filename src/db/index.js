@@ -46,6 +46,10 @@ import {
     reactivateCard,
     deleteCard
 } from './cards.db.js';
+import {
+    isAccountByAccNumberAvailable,
+    createAccount
+} from './accounts.db.js';
 
 export default {
     isSettingByNameAvailable,
@@ -87,5 +91,7 @@ export default {
     updateExistingCard,
     deactivateCard,
     reactivateCard,
-    deleteCard
+    deleteCard,
+    isAccountByAccNumberAvailable,
+    createAccount
 };
