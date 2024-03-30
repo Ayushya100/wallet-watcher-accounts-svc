@@ -78,10 +78,33 @@ const updateExistingCard = async(userId, cardToken, payload) => {
     return await executeQuery(updatedCardInfo);
 }
 
+const deactivateCard = async(userId, cardToken) => {
+    const updatedCardInfo = CardInfoModel.findOneAndUpdate(
+        {
+            token: cardToken,
+            userId: userId
+        },
+        {
+            $set: {
+                isActive: false,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        'cardNumber cardType bankInfo expirationDate holderName cardColor isActive'
+    );
+    return await executeQuery(updatedCardInfo);
+}
+
 export {
     isCardByCardNumberAvailable,
     createNewCard,
     getAllCardInfo,
     getCardInfoByToken,
-    updateExistingCard
+    updateExistingCard,
+    deactivateCard
 };
