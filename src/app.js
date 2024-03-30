@@ -31,7 +31,7 @@ app.use(express.urlencoded({
 
 app.use(rateLimit({
     windowMs: 10 * 60 * 1000, // 10 minutes max
-    max: 50 // Limit each IP to 50 requests per windowMs
+    max: 100 // Limit each IP to 50 requests per windowMs
 }));
 
 app.use(express.static('public'));
@@ -64,6 +64,10 @@ app.put(`${USERS_API}/update-profile-image/:userId`, verifyToken(tokenKey), uplo
 app.delete(`${USERS_API}/delete-profile-image/:userId`, verifyToken(tokenKey), routes.userRoutes.deleteProfileImage);
 app.post(`${USERS_API}/request-reset`, routes.userRoutes.requestPasswordReset);
 app.put(`${USERS_API}/reset-password/:userId`, routes.userRoutes.resetPassword);
+
+// User Dashboard Setting Routes
+app.get(`${USERS_API}/:userId/get-dashboard-settings`, verifyToken(tokenKey), routes.userDashboard.getUserDashboardSetting);
+app.get(`${USERS_API}/:userId/get-dashboard-settings/:userSettingId`, verifyToken(tokenKey), routes.userDashboard.getUserDashboardSetting);
 
 // Error Handler middleware
 app.use(errorHandler);

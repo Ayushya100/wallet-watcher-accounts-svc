@@ -1,7 +1,14 @@
 'use strict';
 
+import mongoose from 'mongoose';
+
 // Add DB Models
-import { DashboardSettingsModel, UserDashboardModel, executeQuery } from 'lib-common-service';
+import {
+    DashboardSettingsModel,
+    UserDashboardModel,
+    executeQuery,
+    executeAggregation
+} from 'lib-common-service';
 
 const isSettingByNameAvailable = async(payload) => {
     const settingDetails = DashboardSettingsModel.findOne({
@@ -109,6 +116,125 @@ const deassignUserSettings = async(ids) => {
     return await executeQuery(updatedSettingDetails);
 }
 
+const getDashboardSettingByUserId = async(userId) => {
+    const isSettingAvailable = UserDashboardModel.aggregate([
+        {
+            $match: {
+                userId: new mongoose.mongoose.Types.ObjectId(userId),
+                isDeleted: false
+            }
+        },
+        {
+            $lookup: {
+                from: 'dashboardsettings',
+                localField: 'settingId',
+                foreignField: '_id',
+                as: 'dashboard'
+            }
+        },
+        {
+            $match: {
+                'dashboard.isDeleted': false
+            }
+        },
+        {
+            $addFields: {
+                categoryName: {
+                    $arrayElemAt: ['$dashboard.categoryName', 0]
+                },
+                categoryDescription: {
+                    $arrayElemAt: ['$dashboard.categoryDescription', 0]
+                },
+                categoryType: {
+                    $arrayElemAt: ['$dashboard.categoryType', 0]
+                },
+                subCategory: {
+                    $arrayElemAt: ['$dashboard.subCategory', 0]
+                },
+                isPeriodic: {
+                    $arrayElemAt: ['$dashboard.isPeriodic', 0]
+                },
+                duration: {
+                    $arrayElemAt: ['$dashboard.duration', 0]
+                }
+            }
+        },
+        {
+            $project: {
+                categoryName: 1,
+                categoryDescription: 1,
+                categoryType: 1,
+                subCategory: 1,
+                type: 1,
+                value: 1,
+                isPeriodic: 1,
+                duration: 1
+            }
+        }
+    ]);
+    return await executeAggregation(isSettingAvailable);
+}
+
+const isUserSettingBySettingIdAvailable = async(userId, settingId) => {
+    const isSettingAvailable = UserDashboardModel.aggregate([
+        {
+            $match: {
+                _id: new mongoose.mongoose.Types.ObjectId(settingId),
+                userId: new mongoose.mongoose.Types.ObjectId(userId),
+                isDeleted: false
+            }
+        },
+        {
+            $lookup: {
+                from: 'dashboardsettings',
+                localField: 'settingId',
+                foreignField: '_id',
+                as: 'dashboard'
+            }
+        },
+        {
+            $match: {
+                'dashboard.isDeleted': false
+            }
+        },
+        {
+            $addFields: {
+                categoryName: {
+                    $arrayElemAt: ['$dashboard.categoryName', 0]
+                },
+                categoryDescription: {
+                    $arrayElemAt: ['$dashboard.categoryDescription', 0]
+                },
+                categoryType: {
+                    $arrayElemAt: ['$dashboard.categoryType', 0]
+                },
+                subCategory: {
+                    $arrayElemAt: ['$dashboard.subCategory', 0]
+                },
+                isPeriodic: {
+                    $arrayElemAt: ['$dashboard.isPeriodic', 0]
+                },
+                duration: {
+                    $arrayElemAt: ['$dashboard.duration', 0]
+                }
+            }
+        },
+        {
+            $project: {
+                categoryName: 1,
+                categoryDescription: 1,
+                categoryType: 1,
+                subCategory: 1,
+                type: 1,
+                value: 1,
+                isPeriodic: 1,
+                duration: 1
+            }
+        }
+    ]);
+    return await executeAggregation(isSettingAvailable);
+}
+
 export {
     isSettingByNameAvailable,
     registerNewSetting,
@@ -118,5 +244,7 @@ export {
     updateSettingDetails,
     getUsersWithAssignedSetting,
     getAllUsersWithAssignedSetting,
-    deassignUserSettings
+    deassignUserSettings,
+    getDashboardSettingByUserId,
+    isUserSettingBySettingIdAvailable
 };
