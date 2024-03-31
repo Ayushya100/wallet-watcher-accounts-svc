@@ -73,10 +73,33 @@ const updateExistingAccount = async(userId, accountToken, payload) => {
     return await executeQuery(updatedAccountInfo);
 }
 
+const deactivateAccount = async(userId, accountToken) => {
+    const updatedAccountInfo = InvestmentAccInfoModel.findOneAndUpdate(
+        {
+            token: accountToken,
+            userId: userId
+        },
+        {
+            $set: {
+                isActive: false,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        'accountName accountNumber accountDate holderName isActive'
+    );
+    return await executeQuery(updatedAccountInfo);
+}
+
 export {
     isAccountByAccNumberAvailable,
     createAccount,
     getAllAccountInfo,
     getAccountByToken,
-    updateExistingAccount
+    updateExistingAccount,
+    deactivateAccount
 };
