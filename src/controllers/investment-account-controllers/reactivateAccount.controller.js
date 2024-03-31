@@ -4,18 +4,18 @@ import dbConnect from '../../db/index.js';
 import { logger, createNewLog } from 'lib-common-service';
 import { decryptAccountData } from '../../utils/index.js';
 
-const header = 'controller: deactivate-account-controller';
+const header = 'controller: reactivate-account-controller';
 
 const log = logger(header);
 const registerLog = createNewLog(header);
 
-const deactivateAccount = async(userId, accountToken) => {
-    registerLog.createDebugLog('Start deactivating the account');
+const reactivateAccount = async(userId, accountToken) => {
+    registerLog.createDebugLog('Start reactivating the account');
 
     try {
-        log.info('Execution for deactivating a account started');
-        log.info('Call db query to deactivate the account in database');
-        const updatedAccountInfo = await dbConnect.deactivateAccount(userId, accountToken);
+        log.info('Execution for reactivating a account started');
+        log.info('Call db query to reactivate the account in database');
+        const updatedAccountInfo = await dbConnect.reactivateAccount(userId, accountToken);
 
         log.info('Data decryption process is initiated');
         updatedAccountInfo.accountName = decryptAccountData(String(updatedAccountInfo.accountName));
@@ -26,10 +26,10 @@ const deactivateAccount = async(userId, accountToken) => {
         log.info('Call db query to get the user info from database');
         const userInfo = await dbConnect.isUserByIdAvailable(userId);
 
-        log.info('Execution for deactivating the account finished successfully');
+        log.info('Execution for reactivating the account finished successfully');
         return {
             resType: 'REQUEST_COMPLETED',
-            resMsg: 'Account Deactivated Successfully',
+            resMsg: 'Account Reactivated Successfully',
             data: {
                 fullName: userInfo.firstName + ' ' + userInfo.lastName,
                 emailId: userInfo.emailId,
@@ -42,7 +42,7 @@ const deactivateAccount = async(userId, accountToken) => {
             isValid: true
         };
     } catch (err) {
-        log.error('Error while working with db to deactivate user account info');
+        log.error('Error while working with db to reactivate user account info');
         return {
             resType: 'INTERNAL_SERVER_ERROR',
             resMsg: 'Some error occurred while working with db.',
@@ -52,12 +52,12 @@ const deactivateAccount = async(userId, accountToken) => {
     }
 }
 
-const sendAccountDeactivationMailPayload = (accountData) => {
+const sendAccountReactivationMailPayload = (accountData) => {
     log.info('Execution for creating payload for sending mail started');
 
     const mailPayload = {
         emailId: accountData.emailId,
-        emailType: 'ACCOUNT_DEACTIVATION_MAIL',
+        emailType: 'ACCOUNT_REACTIVATION_MAIL',
         context: {
             fullName: accountData.fullName,
             accountNumber: accountData.accountNumber
@@ -69,6 +69,6 @@ const sendAccountDeactivationMailPayload = (accountData) => {
 }
 
 export {
-    deactivateAccount,
-    sendAccountDeactivationMailPayload
+    reactivateAccount,
+    sendAccountReactivationMailPayload
 };
