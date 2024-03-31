@@ -55,7 +55,7 @@ const updateCardInfo = async(userId, cardToken, payload) => {
     }
 }
 
-const sendCardUpdationgMailPayload = (cardData) => {
+const sendCardUpdationMailPayload = (cardData) => {
     log.info('Execution for creating payload for sending mail started');
 
     const mailPayload = {
@@ -75,5 +75,5 @@ const sendCardUpdationgMailPayload = (cardData) => {
 
 export {
     updateCardInfo,
-    sendCardUpdationgMailPayload
+    sendCardUpdationMailPayload
 };

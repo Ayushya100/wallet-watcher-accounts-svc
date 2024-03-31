@@ -32,7 +32,7 @@ const updateCardInfo = async(req, res, next) => {
             if (isCardDetailsUpdated.isValid) {
                 registerLog.createInfoLog('Card details updated successfully', null, isCardDetailsUpdated);
                         
-                const mailPayload = cardController.sendCardUpdationgMailPayload(isCardDetailsUpdated.data);
+                const mailPayload = cardController.sendCardUpdationMailPayload(isCardDetailsUpdated.data);
 
                 log.info('Call email service for sending card updating mail');
                 const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
