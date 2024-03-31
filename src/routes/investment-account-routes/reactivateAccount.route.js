@@ -27,11 +27,11 @@ const reactivateAccount = async(req, res, next) => {
             const isAccountReactivated = await accountController.reactivateAccount(userId, accountToken);
     
             if (isAccountReactivated.isValid) {
-                registerLog.createInfoLog('Account deactivated successfully', null, isAccountReactivated);
+                registerLog.createInfoLog('Account reactivated successfully', null, isAccountReactivated);
                 
                 const mailPayload = accountController.sendAccountReactivationMailPayload(isAccountReactivated.data);
 
-                log.info('Call email service for sending account deactivation mail');
+                log.info('Call email service for sending account reactivation mail');
                 const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
                 log.info('Email API execution completed');
 

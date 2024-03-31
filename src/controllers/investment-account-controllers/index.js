@@ -10,6 +10,7 @@ import { getAllAccountInfo, getAccountInfoByToken } from './getAccountInfo.contr
 import { updateAccountInfo, sendAccountUpdationMailPayload } from './updateAccountInfo.controller.js';
 import { deactivateAccount, sendAccountDeactivationMailPayload } from './deactivateAccount.controller.js';
 import { reactivateAccount, sendAccountReactivationMailPayload } from './reactivateAccount.controller.js';
+import { deleteAccount, sendAccountDeletionMailPayload } from './deleteAccount.controller.js';
 
 export default {
     validateNewAccountPayload,
@@ -24,5 +25,7 @@ export default {
     deactivateAccount,
     sendAccountDeactivationMailPayload,
     reactivateAccount,
-    sendAccountReactivationMailPayload
+    sendAccountReactivationMailPayload,
+    deleteAccount,
+    sendAccountDeletionMailPayload
 };

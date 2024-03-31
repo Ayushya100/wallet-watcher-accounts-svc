@@ -38,11 +38,11 @@ const createAccount = async(req, res, next) => {
                     const isAccountCreated = await accountController.createAccount(userId, payload);
 
                     if (isAccountCreated.isValid) {
-                        registerLog.createInfoLog('New card registered successfully', null, isAccountCreated);
+                        registerLog.createInfoLog('New account registered successfully', null, isAccountCreated);
                         
                         const mailPayload = accountController.sendAccountCreationMailPayload(isUserExist.data, isAccountCreated.mailPayload);
 
-                        log.info('Call email service for sending card registration mail');
+                        log.info('Call email service for sending account registration mail');
                         const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
                         log.info('Email API execution completed');
                         

@@ -30,11 +30,11 @@ const updateAccountInfo = async(req, res, next) => {
             const isAccountDetailsUpdated = await accountController.updateAccountInfo(userId, accountToken, payload);
     
             if (isAccountDetailsUpdated.isValid) {
-                registerLog.createInfoLog('New card registered successfully', null, isAccountDetailsUpdated);
+                registerLog.createInfoLog('Account updated successfully', null, isAccountDetailsUpdated);
 
                 const mailPayload = accountController.sendAccountUpdationMailPayload(isAccountDetailsUpdated.data);
 
-                log.info('Call email service for sending account registration mail');
+                log.info('Call email service for sending account updation mail');
                 const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
                 log.info('Email API execution completed');
                 
