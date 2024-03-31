@@ -25,11 +25,11 @@ const deleteCard = async(req, res, next) => {
         const isCardDeleted = await cardController.deleteCard(userId, cardToken);
 
         if (isCardDeleted.isValid) {
-            registerLog.createInfoLog('New card registered successfully', null, isCardDeleted);
+            registerLog.createInfoLog('Card deleted successfully', null, isCardDeleted);
 
             const mailPayload = cardController.sendCardDeletionMailPayload(isCardDeleted.data);
 
-            log.info('Call email service for sending card registration mail');
+            log.info('Call email service for sending card deletion mail');
             const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
             log.info('Email API execution completed');
             
@@ -37,6 +37,7 @@ const deleteCard = async(req, res, next) => {
                 buildApiResponse(isCardDeleted)
             );
         } else {
+            log.error('Error occurred while deleting the card');
             return next(isCardDeleted);
         }
     } catch (err) {

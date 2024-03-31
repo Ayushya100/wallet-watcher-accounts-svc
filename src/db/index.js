@@ -53,7 +53,8 @@ import {
     getAccountByToken,
     updateExistingAccount,
     deactivateAccount,
-    reactivateAccount
+    reactivateAccount,
+    deleteAccount
 } from './accounts.db.js';
 
 export default {
@@ -103,5 +104,6 @@ export default {
     getAccountByToken,
     updateExistingAccount,
     deactivateAccount,
-    reactivateAccount
+    reactivateAccount,
+    deleteAccount
 };

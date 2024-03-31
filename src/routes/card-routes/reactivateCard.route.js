@@ -31,11 +31,11 @@ const reactivateCard = async(req, res, next) => {
                 const isCardReactivated = await cardController.reactivateCard(userId, cardToken);
     
                 if (isCardReactivated.isValid) {
-                    registerLog.createInfoLog('New card registered successfully', null, isCardReactivated);
+                    registerLog.createInfoLog('Card reactivated successfully', null, isCardReactivated);
                 
                     const mailPayload = cardController.sendCardReactivationMailPayload(isCardReactivated.data);
 
-                    log.info('Call email service for sending card registration mail');
+                    log.info('Call email service for sending card reactivation mail');
                     const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
                     log.info('Email API execution completed');
                 

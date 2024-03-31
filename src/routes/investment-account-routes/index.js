@@ -5,11 +5,13 @@ import getAccountInfo from './getAccountInfo.route.js';
 import updateAccountInfo from './updateAccountIinfo.route.js';
 import deactivateAccount from './deactivateAccount.route.js';
 import reactivateAccount from './reactivateAccount.route.js';
+import deleteAccount from './deleteAccount.route.js';
 
 export default {
     createAccount,
     getAccountInfo,
     updateAccountInfo,
     deactivateAccount,
-    reactivateAccount
+    reactivateAccount,
+    deleteAccount
 };

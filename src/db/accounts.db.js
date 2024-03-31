@@ -117,6 +117,29 @@ const reactivateAccount = async(userId, accountToken) => {
     return await executeQuery(updatedAccountInfo);
 }
 
+const deleteAccount = async(userId, accountToken) => {
+    const updatedAccountInfo = InvestmentAccInfoModel.findOneAndUpdate(
+        {
+            token: accountToken,
+            userId: userId
+        },
+        {
+            $set: {
+                isActive: false,
+                isDeleted: true,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        'accountName accountNumber accountDate holderName isActive'
+    );
+    return await executeQuery(updatedAccountInfo);
+}
+
 export {
     isAccountByAccNumberAvailable,
     createAccount,
@@ -124,5 +147,6 @@ export {
     getAccountByToken,
     updateExistingAccount,
     deactivateAccount,
-    reactivateAccount
+    reactivateAccount,
+    deleteAccount
 };
