@@ -85,6 +85,7 @@ app.get(`${USERS_API}/:userId/get-account-info`, verifyToken(tokenKey), routes.a
 app.get(`${USERS_API}/:userId/get-account-info/:accountToken`, verifyToken(tokenKey), routes.accountRoutes.getAccountInfo);
 app.put(`${USERS_API}/:userId/update-account-info/:accountToken`, verifyToken(tokenKey), checkAccountExist, routes.accountRoutes.updateAccountInfo);
 app.put(`${USERS_API}/:userId/deactivate-account/:accountToken`, verifyToken(tokenKey), checkAccountExist, routes.accountRoutes.deactivateAccount);
+app.put(`${USERS_API}/:userId/reactivate-account/:accountToken`, verifyToken(tokenKey), checkAccountExist, routes.accountRoutes.reactivateAccount);
 
 // Error Handler middleware
 app.use(errorHandler);
