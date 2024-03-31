@@ -27,11 +27,11 @@ const deactivateCard = async(req, res, next) => {
             const isCardDeactivated = await cardController.deactivateCard(userId, cardToken);
     
             if (isCardDeactivated.isValid) {
-                registerLog.createInfoLog('New card registered successfully', null, isCardDeactivated);
+                registerLog.createInfoLog('Card deactivated successfully', null, isCardDeactivated);
                 
                 const mailPayload = cardController.sendCardDeactivationMailPayload(isCardDeactivated.data);
 
-                log.info('Call email service for sending card registration mail');
+                log.info('Call email service for sending card deactivation mail');
                 const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
                 log.info('Email API execution completed');
                 

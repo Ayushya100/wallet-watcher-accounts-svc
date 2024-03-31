@@ -8,6 +8,7 @@ import {
 } from './createAccount.controller.js';
 import { getAllAccountInfo, getAccountInfoByToken } from './getAccountInfo.controller.js';
 import { updateAccountInfo, sendAccountUpdationMailPayload } from './updateAccountInfo.controller.js';
+import { deactivateAccount, sendAccountDeactivationMailPayload } from './deactivateAccount.controller.js';
 
 export default {
     validateNewAccountPayload,
@@ -18,5 +19,7 @@ export default {
     getAllAccountInfo,
     getAccountInfoByToken,
     updateAccountInfo,
-    sendAccountUpdationMailPayload
+    sendAccountUpdationMailPayload,
+    deactivateAccount,
+    sendAccountDeactivationMailPayload
 };
