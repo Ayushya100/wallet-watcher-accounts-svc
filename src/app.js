@@ -81,6 +81,8 @@ app.delete(`${USERS_API}/:userId/delete-card/:cardToken`, verifyToken(tokenKey),
 
 // User Investment Account Routes
 app.post(`${USERS_API}/:userId/create-account`, verifyToken(tokenKey), routes.accountRoutes.createAccount);
+app.get(`${USERS_API}/:userId/get-account-info`, verifyToken(tokenKey), routes.accountRoutes.getAccountInfo);
+app.get(`${USERS_API}/:userId/get-account-info/:accountToken`, verifyToken(tokenKey), routes.accountRoutes.getAccountInfo);
 
 // Error Handler middleware
 app.use(errorHandler);
