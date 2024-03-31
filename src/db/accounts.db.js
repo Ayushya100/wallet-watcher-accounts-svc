@@ -23,7 +23,34 @@ const createAccount = async(userId, payload) => {
     return newAccount;
 }
 
+const getAllAccountInfo = async(userId) => {
+    const accountInfo = InvestmentAccInfoModel.find(
+        {
+            userId: userId,
+            isDeleted: false
+        }
+    ).select(
+        'token accountName accountNumber accountDate holderName isActive'
+    );
+    return await executeQuery(accountInfo);
+}
+
+const getAccountByToken = async(userId, accountToken) => {
+    const accountInfo = InvestmentAccInfoModel.findOne(
+        {
+            token: accountToken,
+            userId: userId,
+            isDeleted: false
+        }
+    ).select(
+        'accountName accountNumber accountDate holderName isActive balance'
+    );
+    return await executeQuery(accountInfo);
+}
+
 export {
     isAccountByAccNumberAvailable,
-    createAccount
+    createAccount,
+    getAllAccountInfo,
+    getAccountByToken
 };
