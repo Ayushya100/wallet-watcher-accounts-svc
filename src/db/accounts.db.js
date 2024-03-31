@@ -48,9 +48,35 @@ const getAccountByToken = async(userId, accountToken) => {
     return await executeQuery(accountInfo);
 }
 
+const updateExistingAccount = async(userId, accountToken, payload) => {
+    const existingAccountInfo = await getAccountByToken(userId, accountToken);
+    const updatedAccountInfo = InvestmentAccInfoModel.findOneAndUpdate(
+        {
+            token: accountToken,
+            userId: userId,
+            isDeleted: false
+        },
+        {
+            $set: {
+                accountDate: payload.accountDate || existingAccountInfo.accountDate,
+                holderName: payload.holderName || existingAccountInfo.holderName,
+                modifiedOn: Date.now(),
+                modifiedBy: userId
+            }
+        },
+        {
+            new: true
+        }
+    ).select(
+        'accountName accountNumber accountDate holderName isActive'
+    );
+    return await executeQuery(updatedAccountInfo);
+}
+
 export {
     isAccountByAccNumberAvailable,
     createAccount,
     getAllAccountInfo,
-    getAccountByToken
+    getAccountByToken,
+    updateExistingAccount
 };

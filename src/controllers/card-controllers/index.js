@@ -7,7 +7,7 @@ import {
     sendCardCreationMailPayload
 } from './registerCard.controller.js';
 import { getAllCardsInfo, getCardInfoByToken } from './getCardInfo.controller.js';
-import { updateCardInfo, sendCardUpdationgMailPayload } from './updateCardInfo.controller.js';
+import { updateCardInfo, sendCardUpdationMailPayload } from './updateCardInfo.controller.js';
 import { deactivateCard, sendCardDeactivationMailPayload } from './deactivateCard.controller.js';
 import {
     isCardValidToReactivate,
@@ -25,7 +25,7 @@ export default {
     getAllCardsInfo,
     getCardInfoByToken,
     updateCardInfo,
-    sendCardUpdationgMailPayload,
+    sendCardUpdationMailPayload,
     deactivateCard,
     sendCardDeactivationMailPayload,
     isCardValidToReactivate,

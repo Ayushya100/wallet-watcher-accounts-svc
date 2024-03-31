@@ -7,7 +7,7 @@ import rateLimit from 'express-rate-limit';
 import { registerUser, errorHandler, verifyToken } from 'lib-common-service';
 
 import { USERS_API } from './constants.js';
-import { upload, checkCardExist } from './middlewares/index.js';
+import { upload, checkCardExist, checkAccountExist } from './middlewares/index.js';
 
 // User Routes
 import routes from '../src/routes/index.js';
@@ -83,6 +83,7 @@ app.delete(`${USERS_API}/:userId/delete-card/:cardToken`, verifyToken(tokenKey),
 app.post(`${USERS_API}/:userId/create-account`, verifyToken(tokenKey), routes.accountRoutes.createAccount);
 app.get(`${USERS_API}/:userId/get-account-info`, verifyToken(tokenKey), routes.accountRoutes.getAccountInfo);
 app.get(`${USERS_API}/:userId/get-account-info/:accountToken`, verifyToken(tokenKey), routes.accountRoutes.getAccountInfo);
+app.put(`${USERS_API}/:userId/update-account-info/:accountToken`, verifyToken(tokenKey), checkAccountExist, routes.accountRoutes.updateAccountInfo);
 
 // Error Handler middleware
 app.use(errorHandler);

@@ -57,6 +57,26 @@ const validateNewAccountPayload = (payload) => {
     return response;
 }
 
+// Mandatory parameters check for updating account info
+const validateUpdateAccountPayload = (payload) => {
+    let response = {
+        resType: 'SUCCESS',
+        resMsg: 'VALIDATION SUCCESSFULL',
+        isValid: true
+    };
+
+    if (payload.accountDate) {
+        if (!validateAccountDate(payload.accountDate)) {
+            response.resType = 'BAD_REQUEST';
+            response.resMsg = `Account Date must be smaller than or equal to today's date`;
+            response.isValid = false;
+        }
+    }
+    returnValidationConfirmation();
+    return response;
+}
+
 export {
-    validateNewAccountPayload
+    validateNewAccountPayload,
+    validateUpdateAccountPayload
 };
