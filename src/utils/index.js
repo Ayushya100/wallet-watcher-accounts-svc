@@ -15,6 +15,7 @@ import {
     encryptAccountData,
     decryptAccountData
 } from './account.js';
+import { sendMail } from './request-external-svc.js';
 
 export {
     uploadOnCloudinary,
@@ -28,5 +29,6 @@ export {
     maskAccountNumber,
     generateAccountToken,
     encryptAccountData,
-    decryptAccountData
+    decryptAccountData,
+    sendMail
 };

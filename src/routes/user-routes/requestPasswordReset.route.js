@@ -2,8 +2,7 @@
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
 import controller from '../../controllers/index.js';
-import { EMAIL_SVC_URL } from '../../constants.js';
-import axios from 'axios';
+import { sendMail } from '../../utils/index.js';
 
 const header = 'route: request-password-reset';
 const msg = 'Request Password Reset Router started';
@@ -37,7 +36,7 @@ const requestPasswordReset = async(req, res, next) => {
                     const mailPayload = userManagementController.sendPasswordLinkMailPayload(isRequestComplete.data);
 
                     log.info('Call email service for sending password reset mail');
-                    const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
+                    const mailResponse = await sendMail(mailPayload);
                     log.info('Email API execution completed');
 
                     res.status(responseCodes[isRequestComplete.resType]).json(

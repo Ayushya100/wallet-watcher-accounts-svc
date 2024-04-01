@@ -2,8 +2,7 @@
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
 import controller from '../../controllers/index.js';
-import { EMAIL_SVC_URL } from '../../constants.js';
-import axios from 'axios';
+import { sendMail } from '../../utils/index.js';
 
 const header = 'route: reactivate-card';
 const msg = 'Reactivate Card Router started';
@@ -36,7 +35,7 @@ const reactivateCard = async(req, res, next) => {
                     const mailPayload = cardController.sendCardReactivationMailPayload(isCardReactivated.data);
 
                     log.info('Call email service for sending card reactivation mail');
-                    const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
+                    const mailResponse = await sendMail(mailPayload);
                     log.info('Email API execution completed');
                 
                     res.status(responseCodes[isCardReactivated.resType]).json(

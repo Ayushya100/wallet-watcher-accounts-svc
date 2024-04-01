@@ -2,8 +2,8 @@
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
 import controller from '../../controllers/index.js';
-import { EMAIL_SVC_URL, COOKIE_OPTIONS } from '../../constants.js';
-import axios from 'axios';
+import { COOKIE_OPTIONS } from '../../constants.js';
+import { sendMail } from '../../utils/index.js';
 
 const header = 'route: login-user';
 const msg = 'Login User Router started';
@@ -39,7 +39,7 @@ const loginUser = async(req, res, next) => {
                         const mailPayload = userManagementController.sendAccountReactivationMailPayload(isUserValid.data);
                     
                         log.info('Call email service for sending account reactivation mail');
-                        await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
+                        const mailResponse = await sendMail(mailPayload);
                         log.info('Email API execution completed');
                     }
 
@@ -58,7 +58,7 @@ const loginUser = async(req, res, next) => {
                     const mailPayload = userManagementController.sendVerificationMailPayload(isUserVerified.data);
 
                     log.info('Call email service for sending verification mail');
-                    await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
+                    const mailResponse = await sendMail(mailPayload);
                     log.info('Email API execution completed');
 
                     return next(isUserVerified);
