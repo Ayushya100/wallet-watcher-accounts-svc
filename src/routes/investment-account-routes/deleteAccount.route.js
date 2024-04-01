@@ -2,8 +2,7 @@
 
 import { buildApiResponse, responseCodes, logger, createNewLog } from 'lib-common-service';
 import controller from '../../controllers/index.js';
-import { EMAIL_SVC_URL } from '../../constants.js';
-import axios from 'axios';
+import { sendMail } from '../../utils/index.js';
 
 const header = 'route: delete-account';
 const msg = 'Delete Account Router started';
@@ -30,7 +29,7 @@ const deleteAccount = async(req, res, next) => {
             const mailPayload = accountController.sendAccountDeletionMailPayload(isAccountDeleted.data);
 
             log.info('Call email service for sending account deletion mail');
-            const mailResponse = await axios.post(`${EMAIL_SVC_URL}/api/v1.0/emails/send-mail`, mailPayload);
+            const mailResponse = await sendMail(mailPayload);
             log.info('Email API execution completed');
             
             res.status(responseCodes[isAccountDeleted.resType]).json(
