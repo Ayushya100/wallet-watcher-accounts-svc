@@ -43,7 +43,7 @@ const getAccountByToken = async(userId, accountToken) => {
             isDeleted: false
         }
     ).select(
-        'accountName accountNumber accountDate holderName isActive balance'
+        'accountName accountNumber accountDate holderName isActive amount'
     );
     return await executeQuery(accountInfo);
 }
